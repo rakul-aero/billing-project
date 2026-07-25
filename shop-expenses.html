@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Expenses - Bill With Me</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+  <div class="app-layout" id="app-layout">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <a href="shop-dashboard.html" class="sidebar-brand flex items-center gap-2">
+          <img src="images/logo.jpg" alt="Logo" style="width: 28px; height: 28px; border-radius: 6px;">
+          <span>Bill With Me</span>
+        </a>
+      </div>
+      <div class="sidebar-nav">
+        <div class="nav-item"><a href="shop-dashboard.html" class="nav-link"><i data-lucide="layout-dashboard"></i> Dashboard</a></div>
+        <div class="nav-item"><a href="shop-billing.html" class="nav-link"><i data-lucide="calculator"></i> Billing POS</a></div>
+        <div class="nav-item"><a href="shop-products.html" class="nav-link"><i data-lucide="shopping-cart"></i> Products</a></div>
+        <div class="nav-item"><a href="shop-customers.html" class="nav-link"><i data-lucide="users"></i> Customers</a></div>
+        <div class="nav-item"><a href="shop-inventory.html" class="nav-link"><i data-lucide="package"></i> Inventory</a></div>
+        <div class="nav-item"><a href="shop-expenses.html" class="nav-link active"><i data-lucide="indian-rupee"></i> Expenses</a></div>
+        <div class="nav-item"><a href="shop-reports.html" class="nav-link"><i data-lucide="file-text"></i> Reports</a></div>
+        <div class="nav-item"><a href="shop-analytics.html" class="nav-link"><i data-lucide="pie-chart"></i> Analytics</a></div>
+      </div>
+    </aside>
+    <main class="main-content">
+      <header class="topbar"><h2 style="font-size: 1.25rem;">Expenses</h2></header>
+      <div class="content-area">
+        <div class="flex justify-between items-center mb-6">
+          <h3 style="font-size: 1.1rem;">Expense Tracking</h3>
+          <button class="btn btn-primary"><i data-lucide="plus"></i> Record Expense</button>
+        </div>
+        <div class="card animate-fade-in p-6">
+          <div class="table-wrapper">
+            <table class="table">
+              <thead><tr><th>Date</th><th>Category</th><th>Description</th><th>Amount</th></tr></thead>
+              <tbody>
+                <tr><td>12 Oct, 2024</td><td><span class="badge badge-warning">Electricity</span></td><td>Monthly Bill</td><td>₹ 1,500.00</td></tr>
+                <tr><td>10 Oct, 2024</td><td><span class="badge badge-primary">Salary</span></td><td>Staff Salary</td><td>₹ 15,000.00</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="js/main.js"></script><script>lucide.createIcons();</script>
+</body>
+</html>

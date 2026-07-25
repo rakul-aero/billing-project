@@ -1,0 +1,1749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Bill With Me - Enterprise POS & Admin Portal</title>
+  <meta name="description" content="Bill With Me - Enterprise POS for modern retail & administration">
+  <meta name="theme-color" content="#0f172a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+  --bg:#0f172a;
+  --card:#1e293b;
+  --card-border:#334155;
+  --card-shadow:0 10px 30px -10px rgba(0,0,0,0.5);
+  --ac:#6366f1;
+  --ac-hover:#818cf8;
+  --ac-gradient:linear-gradient(135deg,#4f46e5,#7c3aed);
+  --ac-light:rgba(99,102,241,0.15);
+  --green:#10b981;
+  --green-light:rgba(16,185,129,0.15);
+  --amber:#f59e0b;
+  --amber-light:rgba(245,158,11,0.15);
+  --red:#ef4444;
+  --red-light:rgba(239,68,68,0.15);
+  --text:#f8fafc;
+  --text-muted:#94a3b8;
+  --text-dim:#64748b;
+  --input-bg:#0f172a;
+  --input-border:#334155;
+  --wa:#25D366;
+  --radius:14px;
+  --radius-sm:10px;
+}
+    body{
+      font-family:'Inter',-apple-system,sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      min-height:100vh;
+      min-height:100dvh;
+      line-height:1.5;
+      -webkit-tap-highlight-color:transparent;
+    }
+
+    @keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+    .loader{border:4px solid var(--ac-light);border-top:4px solid var(--ac);border-radius:50%;width:60px;height:60px;animation:spin 1s linear infinite;margin:auto;}
+    .loaderOverlay{position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);display:flex;justify-content:center;align-items:center;z-index:2000;}
+  @keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+  .loader{border:4px solid var(--ac-light);border-top:4px solid var(--ac);border-radius:50%;width:60px;height:60px;animation:spin 1s linear infinite;margin:auto;}
+  .loaderOverlay{position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);display:flex;justify-content:center;align-items:center;z-index:2000;}
+    @keyframes pop{0%{transform:scale(.8);opacity:0}60%{transform:scale(1.05)}100%{transform:scale(1);opacity:1}}
+    .fi{animation:fadeIn .35s ease-out both}.fi2{animation:fadeIn .35s ease-out .08s both}.fi3{animation:fadeIn .35s ease-out .16s both}
+
+    .page{max-width:540px;margin:0 auto;padding:14px}
+    .card{
+      background:var(--card);
+      border:1px solid var(--card-border);
+      border-radius:var(--radius);
+      padding:22px;
+      margin-bottom:14px;
+      box-shadow:var(--card-shadow);
+    }
+
+    /* TAB SELECTOR */
+    .tab-toggle{display:flex;background:var(--input-bg);border:1px solid var(--input-border);border-radius:var(--radius-sm);padding:3px;margin-bottom:18px}
+    .tab-btn{flex:1;padding:10px;text-align:center;font-size:.82rem;font-weight:700;border:none;background:transparent;color:var(--text-muted);cursor:pointer;border-radius:8px;transition:all .2s}
+    .tab-btn.active{background:var(--ac-gradient);color:#fff;box-shadow:0 4px 12px rgba(79,70,229,0.3)}
+
+    /* LOGIN HERO */
+    .lh{text-align:center;padding:16px 14px 14px}
+    .lh img{width:60px;height:60px;border-radius:16px;margin-bottom:10px;box-shadow:0 8px 24px rgba(99,102,241,0.3)}
+    .lh h1{font-size:1.75rem;font-weight:900;letter-spacing:-0.5px;color:#fff}
+    .lh p{color:var(--text-muted);font-size:.85rem;margin-top:2px}
+
+    /* FORMS */
+    .fg{margin-bottom:14px}
+    .fg label{display:block;font-size:.72rem;font-weight:800;color:var(--text-muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.6px}
+    .iw{position:relative;display:flex;align-items:center}
+    .iw .ic{position:absolute;left:13px;color:var(--text-dim);width:17px;height:17px;pointer-events:none}
+    input, select{
+      width:100%;padding:12px 12px 12px 40px;
+      background:var(--input-bg);border:1.5px solid var(--input-border);
+      border-radius:var(--radius-sm);color:var(--text);font-size:.95rem;
+      font-family:'Inter',sans-serif;transition:border .2s,box-shadow .2s;
+    }
+    input:focus, select:focus{outline:none;border-color:var(--ac);box-shadow:0 0 0 3px rgba(99,102,241,0.2);background:#0f172a}
+    input::placeholder{color:var(--text-dim)}
+
+    /* BUTTONS */
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:8px;
+      width:100%;padding:13px;border:none;border-radius:var(--radius-sm);
+      font-family:'Inter',sans-serif;font-size:.92rem;font-weight:700;
+      cursor:pointer;transition:all .2s;color:#fff;-webkit-tap-highlight-color:transparent;
+    }
+    .btn:active{transform:scale(.98)}
+    .btn .lucide{width:18px;height:18px;transition:transform .2s}
+    .btn:hover .lucide{transform:scale(1.1)}
+    
+    .bp{background:var(--ac-gradient);box-shadow:0 4px 16px rgba(79,70,229,0.35)}
+    .bp:hover{box-shadow:0 6px 22px rgba(79,70,229,0.45);transform:translateY(-1px)}
+    h1{font-family:'Inter',-apple-system,sans-serif; color:var(--text);}
+    h2,h3,h4,h5,h6{font-family:'Inter',-apple-system,sans-serif; color:var(--text-muted);}
+    .bw{background:linear-gradient(135deg,#25D366,#128C7E);box-shadow:0 4px 16px rgba(37,211,102,0.25)}
+    .bw:hover{box-shadow:0 6px 20px rgba(37,211,102,0.35)}
+    .bo{background:rgba(255,255,255,0.05);color:var(--text-muted);border:1.5px solid var(--card-border)}
+    .bo:hover{background:rgba(255,255,255,0.1);color:var(--text);border-color:var(--ac)}
+    .bo.active{background:var(--ac-gradient) !important;color:#fff !important;border-color:transparent !important;box-shadow:0 4px 12px rgba(79,70,229,0.3)}
+    .bor{background:linear-gradient(135deg,#f59e0b,#d97706);box-shadow:0 4px 16px rgba(245,158,11,0.25)}
+    .bdone{background:linear-gradient(135deg,#10b981,#059669);font-size:1rem;padding:15px;box-shadow:0 4px 16px rgba(16,185,129,0.3)}
+    .bdone:hover{box-shadow:0 6px 22px rgba(16,185,129,0.4)}
+    .brem{background:var(--red-light);color:var(--red);padding:5px 9px;width:auto;font-size:.75rem;border-radius:6px;border:1px solid rgba(239,68,68,0.2)}
+    .brem:hover{background:var(--red);color:#fff}
+    .bx{background:transparent;border:1.5px solid var(--red);color:var(--red);padding:6px 12px;width:auto;font-size:.78rem;border-radius:8px}
+    .bx:hover{background:var(--red-light)}
+
+    /* HEADER */
+    .hb{display:flex;justify-content:space-between;align-items:center}
+    .sb{display:flex;align-items:center;gap:10px}
+    .sb img{width:36px;height:36px;border-radius:10px;box-shadow:0 4px 12px rgba(99,102,241,0.3)}
+    .sn{font-weight:800;font-size:1.1rem;color:#fff}.st{font-size:.65rem;font-weight:800;color:var(--ac);text-transform:uppercase;letter-spacing:1px}
+
+    /* STATS GRID */
+    .sg{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px}
+    .sc{
+      background:var(--input-bg);border:1.5px solid var(--card-border);
+      border-radius:var(--radius-sm);padding:12px 6px;text-align:center;
+      transition:all .2s;
+    }
+    .sc.r{border-left:3px solid var(--green)}
+    .sc.b{border-left:3px solid var(--ac)}
+    .sc.c{border-left:3px solid var(--amber)}
+    .sv{font-size:1.2rem;font-weight:900;color:#fff}
+    .sl{font-size:.65rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-top:2px;font-weight:700}
+
+    /* ADMIN STATS GRID */
+    .admin-sg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+    .admin-card{background:var(--input-bg);border:1.5px solid var(--card-border);border-radius:var(--radius-sm);padding:14px 10px;text-align:center}
+    .admin-card .val{font-size:1.4rem;font-weight:900;color:var(--ac)}
+    .admin-card .lbl{font-size:.7rem;font-weight:800;color:var(--text-muted);text-transform:uppercase;margin-top:3px}
+
+    /* PRICING CARD STYLES */
+    .pricing-hero{text-align:center;padding:12px 0 18px}
+    .price-tag{font-size:2.4rem;font-weight:900;color:#fff;margin:10px 0 4px}
+    .price-period{font-size:.85rem;color:var(--text-muted);font-weight:600}
+    .offer-pill{display:inline-block;background:var(--green-light);color:var(--green);border:1px solid rgba(16,185,129,0.3);padding:4px 12px;border-radius:20px;font-size:.75rem;font-weight:800;margin-bottom:8px}
+    .offer-pill.purple{background:var(--ac-light);color:var(--ac-hover);border-color:rgba(99,102,241,0.3)}
+    .feature-list{list-style:none;margin:16px 0;text-align:left}
+    .feature-list li{display:flex;align-items:center;gap:10px;font-size:.88rem;color:#f1f5f9;margin-bottom:10px}
+    .feature-list .lucide{color:var(--green);width:18px;height:18px}
+
+    /* LIST CONTAINERS */
+    .sls{max-height:240px;overflow-y:auto}
+    .si{
+      display:flex;justify-content:space-between;align-items:center;
+      padding:10px 12px;border-radius:8px;margin-bottom:6px;
+      background:var(--input-bg);border:1px solid var(--card-border);
+      font-size:.85rem;transition:all .15s;
+    }
+    .si:hover{border-color:var(--ac);background:rgba(99,102,241,0.08)}
+    .si-b{font-weight:800;color:#fff}.si-d{font-size:.74rem;color:var(--text-muted)}.si-a{font-weight:800;color:var(--green);font-size:.95rem}
+
+    .sec{display:flex;align-items:center;gap:8px;font-size:.8rem;font-weight:800;color:var(--text-muted);margin-bottom:12px;text-transform:uppercase;letter-spacing:.6px}
+    .sec .lucide{width:16px;height:16px;color:var(--ac)}
+
+    /* TABLE */
+    .it{width:100%;border-collapse:collapse;margin:10px 0}
+    .it th{text-align:left;padding:8px 5px;font-size:.7rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.6px;border-bottom:2px solid var(--card-border);font-weight:800}
+    .it td{padding:10px 5px;border-bottom:1px solid rgba(255,255,255,0.05);font-size:.88rem;color:#f1f5f9}
+    .it tr:hover{background:rgba(255,255,255,0.03)}
+
+    .gt{text-align:right;padding:14px 0;font-size:1.5rem;font-weight:900;color:var(--ac)}
+
+    /* ADD ITEM BOX */
+    .ab{background:rgba(99,102,241,0.06);border:1.5px dashed var(--ac);border-radius:var(--radius-sm);padding:14px;margin-top:12px}
+
+    .badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;font-size:.7rem;font-weight:800}
+    .bdg-p{background:var(--ac-light);color:var(--ac-hover);border:1px solid rgba(99,102,241,0.2)}
+    .bdg-g{background:var(--green-light);color:var(--green);animation:pop .3s ease-out;border:1px solid rgba(16,185,129,0.2)}
+    .bdg-amber{background:var(--amber-light);color:var(--amber);border:1px solid rgba(245,158,11,0.3)}
+    .bdg-red{background:var(--red-light);color:var(--red);border:1px solid rgba(239,68,68,0.3)}
+    .mr{display:flex;gap:7px;margin-bottom:12px;flex-wrap:wrap}
+
+    .err{color:var(--red);font-size:.82rem;font-weight:700;text-align:center;margin-top:8px;display:none;background:var(--red-light);padding:10px;border-radius:8px;border:1px solid rgba(239,68,68,0.3);line-height:1.4}
+    .empty{text-align:center;color:var(--text-dim);font-size:.83rem;padding:20px}
+
+    /* RECEIPT IMAGE (hidden, rendered by html2canvas) */
+    #receiptRender{position:absolute;left:-9999px;top:0;width:380px;background:#fff;padding:24px;font-family:'Inter',sans-serif;color:#1e293b}
+    .rc{text-align:center}
+    .r-shop{font-size:20px;font-weight:900;color:#4f46e5;margin-bottom:2px}
+    .r-tag{font-size:10px;color:#64748b;margin-bottom:6px}
+    .r-dash{border-top:1.5px dashed #cbd5e1;margin:10px 0}
+    .r-meta{font-size:11px;line-height:1.8;color:#334155}
+    .r-tbl{width:100%;border-collapse:collapse;margin:6px 0}
+    .r-tbl th{text-align:left;padding:5px 4px;font-size:10px;color:#94a3b8;text-transform:uppercase;border-bottom:1.5px solid #e2e8f0}
+    .r-tbl td{padding:6px 4px;font-size:12px;border-bottom:1px solid #f1f5f9}
+    .r-tbl th:last-child,.r-tbl td:last-child{text-align:right}
+    .r-total{text-align:right;font-size:20px;font-weight:900;color:#4f46e5;margin:8px 0}
+    .r-loyalty{text-align:center;font-size:11px;margin:10px 0;padding:8px;border:1.5px dashed #6366f1;border-radius:8px;color:#4f46e5;background:#eef2ff}
+    .r-foot{text-align:center;font-size:9px;color:#94a3b8;margin-top:12px;line-height:1.7}
+
+    /* Bill preview overlay */
+    #billOverlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.75);backdrop-filter:blur(4px);z-index:1000;justify-content:center;align-items:center;padding:16px}
+    #billPreview{background:#1e293b;border:1px solid var(--card-border);border-radius:16px;max-width:400px;width:100%;max-height:85vh;overflow-y:auto;padding:20px;box-shadow:0 20px 60px rgba(0,0,0,.6)}
+    #billPreview img{width:100%;border-radius:8px;margin-bottom:14px;border:2px solid var(--card-border);box-shadow:0 4px 12px rgba(0,0,0,0.2);object-fit:contain;}
+    .overlay-btns{display:flex;flex-direction:column;gap:10px}
+
+    /* Modal styles */
+    .modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.75);backdrop-filter:blur(4px);z-index:1000;justify-content:center;align-items:center;padding:16px}
+    .modal-content{background:#1e293b;border:1px solid var(--card-border);padding:22px;border-radius:16px;max-width:440px;width:100%;max-height:82vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.6)}
+    .modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+
+    /* Success Tick Animation Overlay */
+    .success-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(15, 23, 42, 0.95);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 3000;
+      animation: fadeIn 0.3s ease-out;
+    }
+    .success-card {
+      text-align: center;
+      background: #1e293b;
+      padding: 30px;
+      border-radius: var(--radius);
+      border: 1px solid var(--card-border);
+      box-shadow: var(--card-shadow);
+      max-width: 320px;
+      width: 90%;
+      animation: pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .success-checkmark {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 20px;
+    }
+    .checkmark-circle {
+      stroke-dasharray: 166;
+      stroke-dashoffset: 166;
+      stroke-width: 2;
+      stroke-miterlimit: 10;
+      stroke: #10b981;
+      fill: none;
+      animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+    }
+    .checkmark-check {
+      transform-origin: 50% 50%;
+      stroke-dasharray: 48;
+      stroke-dashoffset: 48;
+      stroke-width: 3;
+      stroke: #10b981;
+      fill: none;
+      animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.6s forwards;
+    }
+    @keyframes stroke {
+      100% { stroke-dashoffset: 0; }
+    }
+
+    ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--card-border);border-radius:4px}
+
+    @media(max-width:480px){
+      .page{padding:8px}.card{padding:14px;margin-bottom:10px}
+      .btn{padding:12px;font-size:.88rem}
+      .lh h1{font-size:1.5rem}.sg{gap:5px}.sc{padding:9px 4px}.sv{font-size:1.05rem}
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== LOGIN PAGE ===== -->
+<div class="page" id="loginPage">
+  <div class="card fi">
+    <div class="lh">
+      <img src="images/logo.jpg" alt="Bill With Me" onerror="this.style.display='none'">
+      <h1>Bill With Me</h1>
+      <p>Enterprise POS & Admin Portal</p>
+      
+    </div>
+
+    <!-- TAB SELECTOR -->
+    <div class="tab-toggle">
+      <button class="tab-btn active" id="tabShopBtn">Shop Login</button>
+      <button class="tab-btn" id="tabAdminBtn">Admin Login</button>
+    </div>
+
+    <!-- SHOP LOGIN FORM -->
+    <div id="shopForm">
+      <div style="display:flex;gap:6px;margin-bottom:14px">
+
+
+      </div>
+      <div class="fg">
+        <label>Shop Name</label>
+        <div class="iw"><i data-lucide="store" class="ic"></i><input type="text" id="lShop" placeholder="e.g. Genzmart"></div>
+      </div>
+      <div class="fg">
+        <label>Owner WhatsApp Number</label>
+        <div class="iw"><i data-lucide="phone" class="ic"></i><input type="tel" id="lPhone" placeholder="10-digit mobile" maxlength="10"></div>
+      </div>
+      <div class="fg">
+        <label>Password</label>
+        <div class="iw"><i data-lucide="lock" class="ic"></i><input type="password" id="lPass" placeholder="Enter password"></div>
+      </div>
+      <div class="fg" id="regReferralGroup" style="display:none">
+        <label>Referral Code (Optional)</label>
+        <div class="iw"><i data-lucide="gift" class="ic"></i><input type="text" id="lRefCode" placeholder="Enter referral code"></div>
+      </div>
+    </div>
+
+    <!-- ADMIN LOGIN FORM -->
+    <div id="adminForm" style="display:none">
+      <div class="fg">
+        <label>Admin Username</label>
+        <div class="iw"><i data-lucide="user-check" class="ic"></i><input type="text" id="lAdminUser" placeholder="Enter admin username"></div>
+      </div>
+      <div class="fg">
+        <label>Admin Password</label>
+        <div class="iw"><i data-lucide="key" class="ic"></i><input type="password" id="lAdminPass" placeholder="Enter admin password"></div>
+      </div>
+    </div>
+
+    <div class="err" id="lErr">❌ Authentication failed!</div>
+
+    <button class="btn bp" id="loginBtn" style="margin-top:10px">
+      <i data-lucide="log-in" id="loginBtnIcon"></i> <span id="loginBtnText">Login</span>
+    </button>
+
+    <button class="btn bo" id="btnOpenPricing" style="margin-top:12px;border-style:dashed;color:var(--ac-hover)">
+      <i data-lucide="tag"></i> Pricing Plans & Subscription Offers 🏷️
+    </button>
+    
+  </div>
+</div>
+
+<!-- ===== SHOP BILLING PAGE ===== -->
+<div class="page" id="billPage" style="display:none">
+
+  <!-- Header Bar with Validity Badge -->
+  <div class="card fi" style="padding:14px 18px">
+    <div class="hb">
+      <div class="sb">
+        <img src="images/logo.jpg" alt="" onerror="this.style.display='none'">
+        <div>
+          <div class="sn" id="hShop">Shop</div>
+          <div class="st">Bill With Me POS</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <button class="btn bo" id="openChangePassBtn" style="width:auto;padding:6px 10px;font-size:.78rem">
+          <i data-lucide="key" style="width:13px;height:13px"></i> Password
+        </button>
+        <button class="btn bx" id="logoutBtn"><i data-lucide="log-out" style="width:13px;height:13px"></i> Exit</button>
+      </div>
+    </div>
+
+    <!-- Subscription Status Bar & Referral Code -->
+    <div style="display:flex;flex-direction:column;gap:8px;margin-top:12px;padding-top:10px;border-top:1px solid var(--card-border)">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div id="shopExpiryBadge" class="badge bdg-g">⏳ Calculating validity...</div>
+        <button class="btn bw" id="btnRenewShopSub" style="width:auto;padding:4px 10px;font-size:.74rem">
+          <i data-lucide="refresh-cw" style="width:12px;height:12px"></i> Renew
+        </button>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;background:rgba(99,102,241,0.06);padding:8px 12px;border-radius:10px;border:1.5px solid var(--card-border)">
+        <div style="font-size:0.75rem;font-weight:700;color:var(--text-muted)">
+          📢 Ref Code: <span id="shopRefCode" style="color:#fff;font-weight:900;letter-spacing:0.5px">...</span>
+        </div>
+        <div class="badge bdg-p" id="refPointsBadge" style="cursor:pointer" onclick="alert('Share your Referral Code with other shop owners. When they register, you will get 1 point!\n\nYour Referral Code: ' + document.getElementById('shopRefCode').textContent)">
+          🎁 <span id="refPoints">0</span> Points
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Today's Sales Summary -->
+  <div class="card fi2">
+    <div class="sec"><i data-lucide="trending-up"></i> Today's Sales Summary</div>
+    <div class="sg">
+      <div class="sc r"><div class="sv" id="sR">₹0</div><div class="sl">Revenue</div></div>
+      <div class="sc b"><div class="sv" id="sB">0</div><div class="sl">Bills</div></div>
+      <div class="sc c"><div class="sv" id="sC">0</div><div class="sl">Customers</div></div>
+    </div>
+    <div class="sls" id="salesList"><div class="empty">No bills today yet — start billing! 🚀</div></div>
+    
+    <div style="display:flex;gap:8px;margin-top:12px;flex-direction:column">
+      <button class="btn bo" id="allPastBillsBtn">
+        <i data-lucide="history"></i> View All Past Bills & History
+      </button>
+      <button class="btn bor" id="reportBtn">
+        <i data-lucide="send"></i> Send Today's Report to My WhatsApp
+      </button>
+    </div>
+  </div>
+
+  <!-- New Bill -->
+  <div class="card fi3">
+    <div class="sec"><i data-lucide="receipt"></i> New Bill</div>
+
+    <div class="fg">
+      <label>Customer WhatsApp Number</label>
+      <div class="iw"><i data-lucide="smartphone" class="ic"></i><input type="tel" id="cPh" placeholder="10-digit number" maxlength="10"></div>
+    </div>
+    <div class="fg">
+      <label>Customer Name <span id="repBadge" class="badge bdg-g" style="display:none">⭐ LOYAL CUSTOMER</span></label>
+      <div class="iw"><i data-lucide="user" class="ic"></i><input type="text" id="cNm" placeholder="Customer name"></div>
+    </div>
+    <div class="mr">
+      <span class="badge bdg-p" id="bNo">Bill: ---</span>
+      <span class="badge bdg-p" id="bCid">CID: ---</span>
+      <button class="btn bo" id="viewCustHistBtn" style="display:none;width:auto;padding:3px 10px;font-size:.72rem">Customer History</button>
+    </div>
+
+    <table class="it" id="cTbl" style="display:none">
+      <thead><tr><th>Item</th><th style="width:38px">Qty</th><th style="width:62px">Price</th><th style="width:62px">Total</th><th style="width:32px"></th></tr></thead>
+      <tbody id="cBody"></tbody>
+    </table>
+    <div class="gt" id="gtW" style="display:none">TOTAL: ₹<span id="gT">0</span></div>
+
+    <div class="ab">
+      <div class="sec" style="margin-bottom:8px"><i data-lucide="package-plus"></i> Add Item</div>
+      <div class="fg"><div class="iw"><i data-lucide="tag" class="ic"></i><input type="text" id="iN" placeholder="Item name"></div></div>
+      <div style="display:flex;gap:8px">
+        <div class="fg" style="flex:1"><div class="iw"><i data-lucide="indian-rupee" class="ic"></i><input type="number" id="iP" placeholder="Price"></div></div>
+        <div class="fg" style="flex:1"><div class="iw"><i data-lucide="hash" class="ic"></i><input type="number" id="iQ" value="1" min="1" placeholder="Qty"></div></div>
+      </div>
+      <button class="btn bo" id="addBtn"><i data-lucide="plus-circle"></i> Add to Bill</button>
+    </div>
+
+    <!-- Payment Mode Selection -->
+    <div class="fg" style="margin-top:14px">
+      <label>Payment Mode</label>
+      <div style="display:flex;gap:8px">
+        <button type="button" class="btn bo active" id="payCashBtn" style="flex:1;padding:8px;font-size:.85rem">💵 Cash</button>
+        <button type="button" class="btn bo" id="payUpiBtn" style="flex:1;padding:8px;font-size:.85rem">📱 UPI</button>
+      </div>
+    </div>
+
+    <button class="btn bdone" id="doneBtn" style="margin-top:16px">
+      <i data-lucide="check-circle"></i> Bill Done ✓ — Send to Customer
+    </button>
+
+    <button class="btn bo" id="newBtn" style="margin-top:8px">
+      <i data-lucide="file-plus"></i> Clear & New Bill
+    </button>
+  </div>
+</div>
+
+<!-- ===== ADMIN DASHBOARD PAGE ===== -->
+<div class="page" id="adminPage" style="display:none">
+
+  <div class="card fi" style="padding:14px 18px">
+    <div class="hb">
+      <div class="sb">
+        <img src="images/logo.jpg" alt="" onerror="this.style.display='none'">
+        <div><div class="sn">Admin Portal</div><div class="st">Bill With Me Super Admin</div></div>
+      </div>
+      <button class="btn bx" id="adminLogoutBtn"><i data-lucide="log-out" style="width:13px;height:13px"></i> Exit</button>
+    </div>
+  </div>
+
+  <!-- Admin Overview Stats -->
+  <div class="card fi2">
+    <div class="sec"><i data-lucide="activity"></i> System Overview</div>
+    <div class="admin-sg">
+      <div class="admin-card">
+        <div class="val" id="aShops">0</div>
+        <div class="lbl">Registered Shops</div>
+      </div>
+      <div class="admin-card">
+        <div class="val" id="aLoginsToday">0</div>
+        <div class="lbl">Shops Active Today</div>
+      </div>
+      <div class="admin-card">
+        <div class="val" id="aBillsToday">0</div>
+        <div class="lbl">Bills Today</div>
+      </div>
+      <div class="admin-card">
+        <div class="val" id="aTotalBillsAllTime">0</div>
+        <div class="lbl">Overall Total Bills</div>
+      </div>
+    </div>
+    <button class="btn bw" id="adminWaReportBtn">
+      <i data-lucide="send"></i> Send Admin Summary to 9361282863
+    </button>
+  </div>
+
+  <!-- Register New Shop Form -->
+  <div class="card fi3">
+    <div class="sec"><i data-lucide="store"></i> Register New Shop</div>
+    <div class="fg">
+      <label>Shop Name</label>
+      <div class="iw"><i data-lucide="store" class="ic"></i><input type="text" id="regShopName" placeholder="e.g. Genzmart"></div>
+    </div>
+    <div class="fg">
+      <label>Owner WhatsApp Number</label>
+      <div class="iw"><i data-lucide="phone" class="ic"></i><input type="tel" id="regOwnerPhone" placeholder="10-digit number" maxlength="10"></div>
+    </div>
+    <div class="fg">
+      <label>Assigned Password</label>
+      <div class="iw"><i data-lucide="key" class="ic"></i><input type="text" id="regShopPass" placeholder="Leave empty for auto: ShopName@123"></div>
+    </div>
+    <div class="fg">
+      <label>Subscription Validity (Months)</label>
+      <div class="iw">
+        <i data-lucide="calendar" class="ic"></i>
+        <select id="regShopMonths">
+          <option value="1" selected>1 Month (Free Trial)</option>
+          <option value="2">2 Months (Offer)</option>
+          <option value="3">3 Months</option>
+          <option value="6">6 Months</option>
+          <option value="12">12 Months (1 Year)</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn bp" id="btnRegisterShop">
+      <i data-lucide="user-plus"></i> Register Shop Access
+    </button>
+  </div>
+
+  <!-- Registered Shops List -->
+  <div class="card fi3">
+    <div class="sec"><i data-lucide="shield-check"></i> Registered Shops & Subscriptions</div>
+    <div class="sls" id="adminShopList"><div class="empty">No shops registered yet. Use form above to register.</div></div>
+  </div>
+
+  <!-- Live Shop Logins Today -->
+  <div class="card fi3">
+    <div class="sec"><i data-lucide="activity"></i> Live Shop Logins Today</div>
+    <div class="sls" id="adminLiveLogins"><div class="empty">No logins today.</div></div>
+  </div>
+
+  <!-- Instant Global Bill History -->
+  <div class="card fi3">
+    <div class="sec"><i data-lucide="receipt"></i> Instant Global Bill History</div>
+    <div class="sls" id="adminGlobalBills" style="max-height:300px"><div class="empty">No bills generated today.</div></div>
+  </div>
+</div>
+
+<!-- ===== CHANGE PASSWORD MODAL (FOR SHOP OWNER) ===== -->
+<div class="modal" id="changePassModal">
+  <div class="modal-content" style="max-width:400px">
+    <div class="modal-header">
+      <h3 style="font-size:1.1rem;font-weight:800;color:#fff">🔒 Change Shop Password</h3>
+      <button class="btn brem" id="closeChangePassBtn">✕</button>
+    </div>
+    <div class="fg">
+      <label>New Password</label>
+      <div class="iw"><i data-lucide="lock" class="ic"></i><input type="password" id="newPassInput" placeholder="Enter new password"></div>
+    </div>
+    <div class="fg">
+      <label>Confirm New Password</label>
+      <div class="iw"><i data-lucide="check" class="ic"></i><input type="password" id="confirmPassInput" placeholder="Re-enter new password"></div>
+    </div>
+    <button class="btn bp" id="btnSaveNewPass" style="margin-top:10px">
+      <i data-lucide="save"></i> Update Password
+    </button>
+  </div>
+</div>
+
+<!-- ===== PRICING & SUBSCRIPTION MODAL ===== -->
+<div class="modal" id="pricingModal">
+  <div class="modal-content" style="max-width:440px">
+    <div class="modal-header">
+      <h3 style="font-size:1.15rem;font-weight:900;color:#fff">Bill With Me Membership</h3>
+      <button class="btn brem" id="closePricingBtn">✕</button>
+    </div>
+
+    <div class="pricing-hero">
+      <div class="offer-pill">🎁 1ST MONTH 100% FREE TRIAL</div>
+      <br>
+      <div class="offer-pill purple">🎉 NEXT 2 MONTHS WELCOME OFFER</div>
+
+      <div class="price-tag">₹99 <span style="font-size:1rem;color:var(--text-muted)">/ month</span></div>
+      <div class="price-period">Full Shop Billing & Admin Access</div>
+    </div>
+
+    <ul class="feature-list">
+      <li><i data-lucide="check-circle-2"></i> <span>Unlimited Digital Bills & Image Receipts</span></li>
+      <li><i data-lucide="check-circle-2"></i> <span>Direct Customer WhatsApp Invoice Messaging</span></li>
+      <li><i data-lucide="check-circle-2"></i> <span>Customer Loyalty System & Purchase History</span></li>
+      <li><i data-lucide="check-circle-2"></i> <span>Daily Revenue, Sales & Profit Tracking</span></li>
+      <li><i data-lucide="check-circle-2"></i> <span>100% Private & Isolated Shop Database</span></li>
+    </ul>
+
+    <div style="background:var(--input-bg);padding:14px;border-radius:10px;border:1px solid var(--card-border);text-align:center;margin-bottom:16px">
+      <div style="font-size:.78rem;font-weight:700;color:var(--text-muted)">ADMIN PAYMENT CONTACT</div>
+      <div style="font-size:1.2rem;font-weight:900;color:var(--ac);margin-top:2px">📱 9361282863</div>
+      <div style="font-size:.74rem;color:var(--text-dim);margin-top:2px">Order now via WhatsApp to activate your shop access!</div>
+    </div>
+
+    <button class="btn bw" id="btnSubscribeWa" style="font-size:.98rem;padding:14px">
+      <i data-lucide="shopping-cart"></i> Order Now via WhatsApp (9361282863)
+    </button>
+  </div>
+</div>
+
+<!-- ===== CUSTOMER HISTORY MODAL ===== -->
+<div class="modal" id="custHistModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 style="font-size:1.1rem;font-weight:800;color:#fff">Customer Purchase History</h3>
+      <button class="btn brem" id="closeCustHistBtn">✕</button>
+    </div>
+    <div id="custHistBody" style="font-size:.85rem"></div>
+  </div>
+</div>
+
+<!-- ===== ALL PAST BILLS HISTORY MODAL FOR SHOP OWNER ===== -->
+<div class="modal" id="allBillsModal">
+  <div class="modal-content" style="max-width:480px">
+    <div class="modal-header">
+      <h3 style="font-size:1.1rem;font-weight:800;color:#fff">Shop Past Bills History</h3>
+      <button class="btn brem" id="closeAllBillsBtn">✕</button>
+    </div>
+    <div class="fg">
+      <div class="iw">
+        <i data-lucide="search" class="ic"></i>
+        <input type="text" id="searchPastBills" placeholder="Search bill no or customer name...">
+      </div>
+    </div>
+    <div id="allBillsBody" class="sls" style="max-height:50vh"></div>
+  </div>
+</div>
+
+<!-- ===== BILL PREVIEW OVERLAY ===== -->
+<div id="billOverlay">
+  <div id="billPreview">
+    <img id="billImg" src="" alt="Bill">
+      <div class="iw">
+        <i data-lucide="tag" class="ic"></i>
+        <input type="text" id="referralInput" placeholder="Enter referral code (optional)" />
+      </div>
+    <div class="overlay-btns">
+      <button class="btn bw" id="directWaChatBtn">
+        <i data-lucide="message-square"></i> Open Direct Chat with Customer
+      </button>
+      <button class="btn bo" id="shareWaBtn">
+        <i data-lucide="share-2"></i> Share / Send Bill Photo (Image)
+      </button>
+      <button class="btn bo" id="dlBtn">
+        <i data-lucide="download"></i> Download Bill Image
+      </button>
+      <button class="btn bo" id="closeOvBtn">
+        <i data-lucide="x"></i> Close
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SUCCESS ANIMATION OVERLAY ===== -->
+<div class="success-overlay" id="successOverlay" style="display:none">
+  <div class="success-card">
+    <div class="success-checkmark">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52" style="width: 100%; height: 100%;">
+        <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+        <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+      </svg>
+    </div>
+    <h2 style="color: #fff; font-size: 1.4rem; font-weight: 800; margin-bottom: 8px;">Bill Completed!</h2>
+    <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 20px;">Receipt generated successfully.</p>
+    <button class="btn bp" id="successOkBtn" style="padding: 10px; font-size: 0.88rem;">Continue</button>
+  </div>
+</div>
+
+<!-- ===== HIDDEN RECEIPT FOR CANVAS ===== -->
+<div id="receiptRender">
+  <div class="rc">
+    <div class="r-shop" id="rShop">SHOP</div>
+    <div class="r-tag">Your Trusted Shopping Destination</div>
+  </div>
+  <div class="r-dash"></div>
+  <div class="r-meta" id="rMeta"></div>
+  <div class="r-dash"></div>
+  <table class="r-tbl"><thead><tr><th>Item</th><th>Qty</th><th>Amount</th></tr></thead><tbody id="rItems"></tbody></table>
+  <div class="r-dash"></div>
+  <div class="r-total" id="rTot">₹0</div>
+  <div class="r-dash"></div>
+  <div class="r-loyalty" id="rLoy"></div>
+  <div class="r-foot" id="rFoot"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/lucide@0.263.1/dist/umd/lucide.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script>
+lucide.createIcons();
+
+// Play a short beep using Web Audio API
+function playBeep(){
+  try{
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(440, ctx.currentTime);
+    gain.gain.setValueAtTime(0.2, ctx.currentTime);
+    osc.connect(gain).connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime + 0.15);
+  }catch(e){console.error('Audio not supported', e);}
+}
+
+function showLoading(){
+  const overlay = document.createElement('div');
+  overlay.id = 'loadingOverlay';
+  overlay.className = 'loaderOverlay';
+  overlay.innerHTML = '<div class="loader"></div>';
+  document.body.appendChild(overlay);
+  playBeep();
+}
+
+function hideLoading(){
+  const overlay = document.getElementById('loadingOverlay');
+  if(overlay) overlay.remove();
+}
+
+const ADMIN_NUM = "9361282863";
+const ADMIN_USER = "Rakul";
+const ADMIN_PASS = "Rakul@787";
+
+let isAdminMode = false;
+let shopName="",ownerPhone="",shopKey="";
+let cart=[],billTotal=0,billNo="",custId="";
+let billImgBlob=null;
+let currentBillData=null;
+let paymentMode = 'Cash';
+let isRegisterMode = false;
+
+// === Storage Helpers ===
+function sk(k){return 'bwm_'+shopKey+'_'+k}
+function db(k,v){if(v===undefined){try{return JSON.parse(localStorage.getItem(k))}catch{return localStorage.getItem(k)}}localStorage.setItem(k,typeof v==='string'?v:JSON.stringify(v))}
+function sdb(k,v){return db(sk(k),v)}
+function mkKey(n){return n.trim().toLowerCase().replace(/[^a-z0-9]/g,'_')}
+
+// === Date & Expiry Calculation Helpers ===
+function today(){const d=new Date();return`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
+
+function calculateExpiryDate(startDateStr, months) {
+  const d = new Date(startDateStr);
+  d.setMonth(d.getMonth() + parseInt(months));
+  return d.toISOString();
+}
+
+function getDaysLeft(expiryDateStr) {
+  if (!expiryDateStr) return 30; // default 30 days
+  const exp = new Date(expiryDateStr);
+  const now = new Date();
+  const diffTime = exp - now;
+  return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+}
+
+// === Universal WhatsApp URL Generator ===
+function getCleanWhatsAppUrl(phone, text) {
+  let clean = (phone || '').replace(/\D/g, '');
+  if (clean.length === 10) {
+    clean = '91' + clean;
+  } else if (clean.length === 11 && clean.startsWith('0')) {
+    clean = '91' + clean.substring(1);
+  }
+  const encoded = encodeURIComponent(text);
+  return `https://api.whatsapp.com/send?phone=${clean}&text=${encoded}`;
+}
+
+function getBills(){return sdb('bills_'+today())||[]}
+function saveBills(b){
+  sdb('bills_'+today(),b);
+  let allHist = sdb('all_bills_history') || [];
+  const latestBill = b[b.length-1];
+  allHist.push(latestBill);
+  sdb('all_bills_history', allHist);
+
+  // Global bill history for Admin
+  const globalBill = {...latestBill, shopName: shopName};
+  let globalHist = db('bwm_global_bills_history') || [];
+  globalHist.push(globalBill);
+  db('bwm_global_bills_history', globalHist);
+
+  let totalAllTime = db('bwm_global_total_bills') || 0;
+  db('bwm_global_total_bills', totalAllTime + 1);
+}
+
+function getCusts(){return sdb('custs')||{}}
+function saveCusts(c){sdb('custs',c)}
+
+function nextBillNo(){const day=today().replace(/-/g,'');return`BWM-${day}-${String(getBills().length+1).padStart(3,'0')}`}
+function getCustId(ph){
+  let m=sdb('cidmap')||{};if(m[ph])return m[ph];
+  let c=sdb('cidcnt')||0;c++;m[ph]='CID-'+String(c).padStart(4,'0');
+  sdb('cidmap',m);sdb('cidcnt',c);return m[ph];
+}
+
+// === Pre-populate Genzmart with 1 Month validity if no shops exist ===
+function initShopsRegistry() {
+  let shops = db('bwm_all_shops');
+  if (!shops) {
+    const regDate = today();
+    shops = [{
+      name: "Genzmart",
+      phone: "9876543210",
+      password: "Genzmart@123",
+      key: "genzmart",
+      registeredDate: regDate,
+      months: 1,
+      expiryDate: calculateExpiryDate(regDate, 1),
+      referralCode: "GENZMART",
+      referralPoints: 0
+    }];
+    db('bwm_all_shops', shops);
+  } else {
+    // Migrate existing shops if missing referral fields
+    let updated = false;
+    shops.forEach(s => {
+      if (!s.referralCode) {
+        s.referralCode = s.name.trim().toUpperCase().replace(/[^A-Z0-9]/g, '');
+        updated = true;
+      }
+      if (s.referralPoints === undefined) {
+        s.referralPoints = 0;
+        updated = true;
+      }
+    });
+    if (updated) {
+      db('bwm_all_shops', shops);
+    }
+  }
+}
+
+initShopsRegistry();
+
+function getRegisteredShop(name) {
+  if (!name) return null;
+  const shops = db('bwm_all_shops') || [];
+  const targetKey = mkKey(name);
+  return shops.find(s => s.key === targetKey || s.name.trim().toLowerCase() === name.trim().toLowerCase());
+}
+
+const $=id=>document.getElementById(id);
+
+// === TAB TOGGLE ===
+$('tabShopBtn').addEventListener('click', () => {
+  isAdminMode = false;
+  $('tabShopBtn').classList.add('active');
+  $('tabAdminBtn').classList.remove('active');
+  $('shopForm').style.display = 'block';
+  $('adminForm').style.display = 'none';
+  $('lErr').style.display = 'none';
+});
+
+$('tabAdminBtn').addEventListener('click', () => {
+  isAdminMode = true;
+  $('tabAdminBtn').classList.add('active');
+  $('tabShopBtn').classList.remove('active');
+  $('adminForm').style.display = 'block';
+  $('shopForm').style.display = 'none';
+  $('lErr').style.display = 'none';
+});
+
+// === SUB-TAB TOGGLES FOR SHOP LOGIN/REGISTER ===
+
+
+
+
+// === PAYMENT MODE SELECTORS ===
+$('payCashBtn').addEventListener('click', () => {
+  paymentMode = 'Cash';
+  $('payCashBtn').classList.add('active');
+  $('payUpiBtn').classList.remove('active');
+});
+
+$('payUpiBtn').addEventListener('click', () => {
+  paymentMode = 'UPI';
+  $('payUpiBtn').classList.add('active');
+  $('payCashBtn').classList.remove('active');
+});
+
+// === PRICING MODAL HANDLERS ===
+$('btnOpenPricing').addEventListener('click', () => {
+  $('pricingModal').style.display = 'flex';
+  lucide.createIcons();
+});
+
+$('closePricingBtn').addEventListener('click', () => {
+  $('pricingModal').style.display = 'none';
+});
+
+$('btnSubscribeWa').addEventListener('click', () => {
+  const shopEntered = $('lShop').value.trim();
+  const phoneEntered = $('lPhone').value.trim();
+
+  let msg = `Hii!\n\nI want to order & subscribe to *Bill With Me POS* for my shop.\n\n`;
+  if (shopEntered) msg += `🏪 *Shop Name:* ${shopEntered}\n`;
+  if (phoneEntered) msg += `📱 *Owner Mobile:* ${phoneEntered}\n`;
+  msg += `\nPlease register my shop access for the 1st Month FREE Trial & Welcome Offer!`;
+
+  window.open(getCleanWhatsAppUrl(ADMIN_NUM, msg), '_blank');
+});
+
+// === LOGIN INITIALIZATION ===
+window.addEventListener('DOMContentLoaded', () => {
+  const s = db('bwm_session');
+  if (s) {
+    if (s.isAdmin) {
+      showAdminDashboard();
+    } else if (s.shop && s.phone) {
+      shopName = s.shop;
+      ownerPhone = s.phone;
+      shopKey = mkKey(s.shop);
+      
+      const regShop = getRegisteredShop(shopName);
+      if (regShop) {
+        const daysLeft = getDaysLeft(regShop.expiryDate);
+        if (daysLeft <= 0) {
+          localStorage.removeItem('bwm_session');
+          return;
+        }
+      }
+      showBill();
+    }
+  }
+});
+
+// === LOGIN AUTHENTICATION ===
+$('loginBtn').addEventListener('click', () => {
+  if (isAdminMode) {
+    const user = $('lAdminUser').value.trim();
+    const pass = $('lAdminPass').value.trim();
+    if (user === ADMIN_USER && pass === ADMIN_PASS) {
+      db('bwm_session', { isAdmin: true });
+      showAdminDashboard();
+    } else {
+      $('lErr').textContent = '❌ Invalid Admin Username or Password!';
+      $('lErr').style.display = 'block';
+    }
+  } else {
+    const shop = $('lShop').value.trim();
+    const phone = $('lPhone').value.trim();
+    const pass = $('lPass').value.trim();
+
+    if (!shop) { alert('Please enter shop name.'); return; }
+    if (!phone || phone.length < 10) { alert('Please enter valid 10-digit owner number.'); return; }
+    if (!pass) { alert('Please enter password.'); return; }
+
+    let shops = db('bwm_all_shops') || [];
+
+    if (isRegisterMode) {
+      const key = mkKey(shop);
+      if (shops.some(s => s.key === key)) {
+        $('lErr').textContent = `❌ Shop name "${shop}" is already registered. Please login.`;
+        $('lErr').style.display = 'block';
+        return;
+      }
+
+      // Check referral code
+      const refCode = $('lRefCode').value.trim();
+      let referralApplied = false;
+      if (refCode) {
+        const referrer = shops.find(s => s.referralCode && s.referralCode.toUpperCase() === refCode.toUpperCase());
+        if (referrer) {
+          referrer.referralPoints = (referrer.referralPoints || 0) + 1;
+          referralApplied = true;
+        }
+      }
+
+      const myRefCode = shop.trim().toUpperCase().replace(/[^A-Z0-9]/g, '');
+      const regDate = today();
+      const expiryISO = calculateExpiryDate(regDate, 1);
+
+      const newShop = {
+        name: shop,
+        phone: phone,
+        password: pass,
+        key: key,
+        registeredDate: regDate,
+        months: 1,
+        expiryDate: expiryISO,
+        referralCode: myRefCode,
+        referralPoints: 0,
+        referredBy: refCode.toUpperCase(),
+        lastLoginTime: new Date().toLocaleTimeString('en-IN', {hour:'2-digit',minute:'2-digit',hour12:true}),
+        lastLoginDate: regDate
+      };
+
+      shops.push(newShop);
+      db('bwm_all_shops', shops);
+
+      if (referralApplied) {
+        alert(`🎉 Registration successful! 1-Month Free Trial active. Referral code applied successfully!`);
+      } else if (refCode) {
+        alert(`⚠️ Referral code not found. Registration completed with a 1-Month Free Trial.`);
+      } else {
+        alert(`✅ Registration successful! 1-Month Free Trial active.`);
+      }
+
+      $('lErr').style.display = 'none';
+      shopName = shop;
+      ownerPhone = phone;
+      shopKey = key;
+
+      db('bwm_session', { shop: shopName, phone: ownerPhone, isAdmin: false });
+
+      const time = new Date().toLocaleTimeString('en-IN', {hour:'2-digit',minute:'2-digit',hour12:true});
+      const lKey = 'bwm_logins_' + today();
+      let logins = db(lKey) || [];
+      if (!logins.some(l => l.shop === shopName)) {
+        logins.push({ shop: shopName, phone: ownerPhone, time: time });
+        db(lKey, logins);
+      }
+
+      showBill();
+
+    } else {
+      const regShop = getRegisteredShop(shop);
+      if (!regShop) {
+        $('lErr').innerHTML = `❌ Shop <b>"${shop}"</b> is NOT registered!<br>Bill With Me is a paid service (₹99/mo with 1st Month FREE).<br><button onclick="$('pricingModal').style.display='flex'" style="background:var(--ac-gradient);color:#fff;border:none;padding:6px 12px;border-radius:6px;font-weight:700;margin-top:6px;cursor:pointer">View Pricing & Order Access ➜</button>`;
+        $('lErr').style.display = 'block';
+        return;
+      }
+
+      const daysLeft = getDaysLeft(regShop.expiryDate);
+      if (daysLeft <= 0) {
+        const formattedExp = new Date(regShop.expiryDate).toLocaleDateString('en-IN');
+        const renewMsg = `Hii Admin! My subscription for ${regShop.name} expired on ${formattedExp}. Please renew my access.`;
+        const renewUrl = getCleanWhatsAppUrl(ADMIN_NUM, renewMsg);
+        $('lErr').innerHTML = `❌ Subscription Expired!<br>Your access ended on <b>${formattedExp}</b>.<br><a href="${renewUrl}" target="_blank" style="display:inline-block;background:var(--wa);color:#fff;text-decoration:none;padding:6px 12px;border-radius:6px;font-weight:800;margin-top:6px">Renew via WhatsApp (9361282863) ➜</a>`;
+        $('lErr').style.display = 'block';
+        return;
+      }
+
+      const expectedPass = regShop.password || (regShop.name.trim() + '@123');
+      if (pass !== expectedPass) {
+        $('lErr').textContent = `❌ Incorrect Password! Please check and try again.`;
+        $('lErr').style.display = 'block';
+        return;
+      }
+
+      $('lErr').style.display = 'none';
+      shopName = regShop.name;
+      ownerPhone = phone;
+      shopKey = regShop.key;
+
+      const time = new Date().toLocaleTimeString('en-IN', {hour:'2-digit',minute:'2-digit',hour12:true});
+      regShop.lastLoginTime = time;
+      regShop.lastLoginDate = today();
+      let idx = shops.findIndex(s => s.key === regShop.key);
+      if (idx !== -1) { shops[idx] = regShop; db('bwm_all_shops', shops); }
+
+      db('bwm_session', { shop: shopName, phone: ownerPhone, isAdmin: false });
+
+      const lKey = 'bwm_logins_' + today();
+      let logins = db(lKey) || [];
+      if (!logins.some(l => l.shop === shopName)) {
+        logins.push({ shop: shopName, phone: ownerPhone, time: time });
+        db(lKey, logins);
+      }
+
+      showBill();
+    }
+  }
+});
+
+$('logoutBtn').addEventListener('click', () => {
+  localStorage.removeItem('bwm_session');
+  shopName=''; ownerPhone=''; shopKey='';
+  $('loginPage').style.display = 'block';
+  $('billPage').style.display = 'none';
+  $('adminPage').style.display = 'none';
+});
+
+$('adminLogoutBtn').addEventListener('click', () => {
+  localStorage.removeItem('bwm_session');
+  $('loginPage').style.display = 'block';
+  $('billPage').style.display = 'none';
+  $('adminPage').style.display = 'none';
+});
+
+function showBill() {
+  $('loginPage').style.display = 'none';
+  $('adminPage').style.display = 'none';
+  $('billPage').style.display = 'block';
+  $('hShop').textContent = shopName;
+
+  // Display Subscription Validity & Days Left Badge
+  const regShop = getRegisteredShop(shopName);
+  if (regShop) {
+    const daysLeft = getDaysLeft(regShop.expiryDate);
+    const badge = $('shopExpiryBadge');
+    if (daysLeft > 7) {
+      badge.className = 'badge bdg-g';
+      badge.innerHTML = `⏳ <b>${daysLeft} Days Left</b> in Subscription`;
+    } else if (daysLeft > 0) {
+      badge.className = 'badge bdg-amber';
+      badge.innerHTML = `⚠️ <b>${daysLeft} Days Left</b> (Expiring Soon)`;
+    } else {
+      badge.className = 'badge bdg-red';
+      badge.innerHTML = `🔴 <b>Subscription Expired</b>`;
+    }
+
+    // Populate Referral badges
+    $('shopRefCode').textContent = regShop.referralCode || shopName.trim().toUpperCase().replace(/[^A-Z0-9]/g, '');
+    $('refPoints').textContent = regShop.referralPoints || 0;
+  }
+
+  newBill();
+  refreshDash();
+  lucide.createIcons();
+}
+
+// === RENEW SUBSCRIPTION BUTTON FOR SHOP OWNER ===
+$('btnRenewShopSub').addEventListener('click', () => {
+  let msg = `Hii Admin (Rakul)!\n\nI want to renew/extend the subscription for my shop.\n🏪 *Shop Name:* ${shopName}\n📱 *Owner Mobile:* ${ownerPhone}\n\nPlease renew my access!`;
+  window.open(getCleanWhatsAppUrl(ADMIN_NUM, msg), '_blank');
+});
+
+// === SHOP OWNER PASSWORD CHANGE HANDLERS ===
+$('openChangePassBtn').addEventListener('click', () => {
+  $('newPassInput').value = '';
+  $('confirmPassInput').value = '';
+  $('changePassModal').style.display = 'flex';
+  lucide.createIcons();
+});
+
+$('closeChangePassBtn').addEventListener('click', () => {
+  $('changePassModal').style.display = 'none';
+});
+
+$('btnSaveNewPass').addEventListener('click', () => {
+  const newPass = $('newPassInput').value.trim();
+  const confirmPass = $('confirmPassInput').value.trim();
+
+  if (!newPass) { alert('Enter new password.'); return; }
+  if (newPass.length < 4) { alert('Password must be at least 4 characters long.'); return; }
+  if (newPass !== confirmPass) { alert('Passwords do not match. Please re-enter.'); return; }
+
+  let shops = db('bwm_all_shops') || [];
+  let regShop = shops.find(s => s.key === shopKey);
+  if (regShop) {
+    regShop.password = newPass;
+    db('bwm_all_shops', shops);
+    alert('✅ Password updated successfully! You can now log in using your new password.');
+    $('changePassModal').style.display = 'none';
+  }
+});
+
+function showAdminDashboard() {
+  $('loginPage').style.display = 'none';
+  $('billPage').style.display = 'none';
+  $('adminPage').style.display = 'block';
+  refreshAdminDash();
+  lucide.createIcons();
+}
+
+// === ADMIN REGISTER NEW SHOP WITH MONTHS ===
+$('btnRegisterShop').addEventListener('click', () => {
+  const name = $('regShopName').value.trim();
+  const phone = $('regOwnerPhone').value.trim();
+  let pass = $('regShopPass').value.trim();
+  const months = parseInt($('regShopMonths').value) || 1;
+
+  if (!name) { alert('Enter shop name.'); return; }
+  if (!phone || phone.length < 10) { alert('Enter 10-digit owner mobile number.'); return; }
+
+  let shops = db('bwm_all_shops') || [];
+  const key = mkKey(name);
+
+  if (shops.some(s => s.key === key)) {
+    alert(`Shop "${name}" is ALREADY registered! You can extend its duration in the list below.`);
+    return;
+  }
+
+  if (!pass) {
+    pass = name + '@123';
+  }
+
+  const regDate = today();
+  const expiryISO = calculateExpiryDate(regDate, months);
+
+  // generate a simple referral code (6 uppercase alphanumeric chars)
+  const referralCode = Math.random().toString(36).substring(2, 8).toUpperCase();
+
+  // Initialize referral points to zero
+  const referralPoints = 0;
+
+  shops.push({
+    name: name,
+    phone: phone,
+    password: pass,
+    key: key,
+    registeredDate: regDate,
+    months: months,
+    expiryDate: expiryISO,
+    lastLoginTime: 'Never',
+    lastLoginDate: 'Never',
+    referralCode: referralCode,
+    referralPoints: referralPoints
+  });
+
+  db('bwm_all_shops', shops);
+
+  alert(`✅ Shop Registered Successfully!\n\nShop Name: ${name}\nOwner Mobile: ${phone}\nPassword: ${pass}\nValidity: ${months} Month(s) (Expires: ${new Date(expiryISO).toLocaleDateString('en-IN')})\nReferral Code: ${referralCode}`);
+
+  $('regShopName').value = '';
+  $('regOwnerPhone').value = '';
+  $('regShopPass').value = '';
+
+  refreshAdminDash();
+});
+
+// === ADMIN DASHBOARD REFRESH WITH EXTEND CONTROLS ===
+function refreshAdminDash() {
+  const allShops = db('bwm_all_shops') || [];
+  const activeToday = db('bwm_logins_' + today()) || [];
+  const totalBillsAllTime = db('bwm_global_total_bills') || 0;
+
+  let todayBillsTotal = 0;
+  allShops.forEach(s => {
+    const sBills = db('bwm_' + s.key + '_bills_' + today()) || [];
+    todayBillsTotal += sBills.length;
+  });
+
+  $('aShops').textContent = allShops.length;
+  $('aLoginsToday').textContent = activeToday.length;
+  $('aBillsToday').textContent = todayBillsTotal;
+  $('aTotalBillsAllTime').textContent = totalAllTimeCalc(allShops, totalBillsAllTime);
+
+  const list = $('adminShopList');
+  if (allShops.length === 0) {
+    list.innerHTML = '<div class="empty">No shops registered yet. Use form above to register.</div>';
+  } else {
+    list.innerHTML = '';
+    allShops.forEach((s, idx) => {
+      const sBills = db('bwm_' + s.key + '_bills_' + today()) || [];
+      const rev = sBills.reduce((acc, b) => acc + b.total, 0);
+      const daysLeft = getDaysLeft(s.expiryDate);
+
+      let daysText = `<span style="color:var(--green)">${daysLeft} days left</span>`;
+      if (daysLeft <= 0) {
+        daysText = `<span style="color:var(--red);font-weight:700">Expired (${new Date(s.expiryDate).toLocaleDateString('en-IN')})</span>`;
+      } else if (daysLeft <= 7) {
+        daysText = `<span style="color:var(--amber);font-weight:700">${daysLeft} days left (Soon)</span>`;
+      }
+
+      const div = document.createElement('div');
+      div.className = 'si';
+      div.style.flexDirection = 'column';
+      div.style.alignItems = 'stretch';
+      div.style.gap = '8px';
+      div.innerHTML = `
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <div class="si-b">${idx+1}. ${s.name} (${daysText})</div>
+            <div class="si-d">📞 ${s.phone} | Pass: <b>${s.password || (s.name+'@123')}</b></div>
+            <div class="si-d" style="color:var(--ac-hover);font-weight:700">🎁 Ref Code: <b>${s.referralCode || ''}</b> | Ref Points: <b>${s.referralPoints || 0}</b></div>
+          </div>
+          <div style="text-align:right">
+            <div class="si-a">₹${rev.toLocaleString('en-IN')}</div>
+            <div class="si-d">${sBills.length} bills today</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:6px;justify-content:flex-end">
+          <button class="btn bo" onclick="extendShop('${s.key}', 1)" style="width:auto;padding:3px 8px;font-size:.72rem">+1 Month</button>
+          <button class="btn bo" onclick="extendShop('${s.key}', 3)" style="width:auto;padding:3px 8px;font-size:.72rem">+3 Months</button>
+          <button class="btn brem" onclick="removeShop('${s.key}')" style="padding:3px 8px">Remove</button>
+        </div>
+      `;
+      list.appendChild(div);
+    });
+  }
+
+  // Populate Live Shop Logins Today
+  const liveLoginsList = $('adminLiveLogins');
+  if (activeToday.length === 0) {
+    liveLoginsList.innerHTML = '<div class="empty">No logins today.</div>';
+  } else {
+    liveLoginsList.innerHTML = '';
+    activeToday.forEach(l => {
+      const div = document.createElement('div');
+      div.className = 'si';
+      div.innerHTML = `
+        <div>
+          <div class="si-b">${l.shop}</div>
+          <div class="si-d">📞 ${l.phone}</div>
+        </div>
+        <div style="text-align:right">
+          <div class="badge bdg-g">${l.time}</div>
+        </div>
+      `;
+      liveLoginsList.appendChild(div);
+    });
+  }
+
+  // Populate Global Instant Bill History
+  const globalHist = db('bwm_global_bills_history') || [];
+  const globalBillsList = $('adminGlobalBills');
+  if (globalHist.length === 0) {
+    globalBillsList.innerHTML = '<div class="empty">No bills generated yet.</div>';
+  } else {
+    globalBillsList.innerHTML = '';
+    [...globalHist].reverse().slice(0, 50).forEach(b => {
+      const div = document.createElement('div');
+      div.className = 'si';
+      div.innerHTML = `
+        <div>
+          <div class="si-b">${b.billNo} <span style="font-size:0.75rem;color:var(--ac-hover);font-weight:normal">(${b.shopName || 'Unknown'})</span></div>
+          <div class="si-d">👤 ${b.custName} | Mode: <b>${b.paymentMode || 'Cash'}</b></div>
+          <div class="si-d" style="color:var(--text-dim)">📅 ${b.date} at ${b.time}</div>
+        </div>
+        <div style="text-align:right">
+          <div class="si-a">₹${b.total.toLocaleString('en-IN')}</div>
+          <div class="si-d">${b.items.length} items</div>
+        </div>
+      `;
+      globalBillsList.appendChild(div);
+    });
+  }
+
+  lucide.createIcons();
+}
+
+window.extendShop = function(key, addMonths) {
+  let shops = db('bwm_all_shops') || [];
+  let s = shops.find(item => item.key === key);
+  if (s) {
+    const baseDate = (s.expiryDate && new Date(s.expiryDate) > new Date()) ? new Date(s.expiryDate) : new Date();
+    baseDate.setMonth(baseDate.getMonth() + parseInt(addMonths));
+    s.expiryDate = baseDate.toISOString();
+    s.months = (s.months || 1) + parseInt(addMonths);
+    db('bwm_all_shops', shops);
+    alert(`✅ Extended "${s.name}" by +${addMonths} month(s)! New Expiry: ${baseDate.toLocaleDateString('en-IN')}`);
+    refreshAdminDash();
+  }
+};
+
+window.removeShop = function(key) {
+  if (confirm('Are you sure you want to remove this shop from registered access?')) {
+    let shops = db('bwm_all_shops') || [];
+    shops = shops.filter(s => s.key !== key);
+    db('bwm_all_shops', shops);
+    refreshAdminDash();
+  }
+};
+
+function totalAllTimeCalc(allShops, recordedGlobalTotal) {
+  let count = 0;
+  for (let key in localStorage) {
+    if (key.startsWith('bwm_') && key.includes('_bills_')) {
+      try {
+        const b = JSON.parse(localStorage.getItem(key));
+        if (Array.isArray(b)) count += b.length;
+      } catch(e){}
+    }
+  }
+  return Math.max(count, recordedGlobalTotal);
+}
+
+// === ADMIN WHATSAPP REPORT ===
+$('adminWaReportBtn').addEventListener('click', () => {
+  const allShops = db('bwm_all_shops') || [];
+  const activeToday = db('bwm_logins_' + today()) || [];
+  let todayBillsTotal = 0;
+  let todayTotalRev = 0;
+
+  let breakdownStr = "";
+  allShops.forEach((s, i) => {
+    const sBills = db('bwm_' + s.key + '_bills_' + today()) || [];
+    const rev = sBills.reduce((acc, b) => acc + b.total, 0);
+    todayBillsTotal += sBills.length;
+    todayTotalRev += rev;
+    const daysLeft = getDaysLeft(s.expiryDate);
+    breakdownStr += `  ${i+1}. *${s.name}*: ${sBills.length} bills (₹${rev}) [${daysLeft}d left]\n`;
+  });
+
+  let msg = `━━━━━━━━━━━━━━━━━━━━\n`;
+  msg += `  📊 *BILL WITH ME — ADMIN DAILY SUMMARY*\n`;
+  msg += `━━━━━━━━━━━━━━━━━━━━\n`;
+  msg += `📅 Date: ${new Date().toLocaleDateString('en-IN')}\n\n`;
+  msg += `🏪 Total Registered Shops: *${allShops.length}*\n`;
+  msg += `📱 Active Shops Today: *${activeToday.length}*\n`;
+  msg += `📋 Total Bills Generated Today: *${todayBillsTotal}*\n`;
+  msg += `💰 Total Volume Generated Today: *₹${todayTotalRev.toLocaleString('en-IN')}*\n`;
+  msg += `────────────────────\n`;
+
+  if (breakdownStr) {
+    msg += `\n📝 *Registered Shops Status:*\n${breakdownStr}`;
+  }
+
+  msg += `\n────────────────────\n`;
+  msg += `_Bill With Me Master Dashboard_`;
+
+  window.open(getCleanWhatsAppUrl(ADMIN_NUM, msg), '_blank');
+});
+
+// === NEW BILL ===
+function newBill(){
+  cart=[]; billTotal=0; billNo=nextBillNo(); custId=''; currentBillData=null;
+  paymentMode = 'Cash';
+  $('payCashBtn').classList.add('active');
+  $('payUpiBtn').classList.remove('active');
+  $('cPh').value=''; $('cNm').value='';
+  $('repBadge').style.display='none';
+  $('viewCustHistBtn').style.display='none';
+  $('bNo').textContent='Bill: '+billNo;
+  $('bCid').textContent='CID: ---';
+  renderCart();
+}
+$('newBtn').addEventListener('click', newBill);
+
+// === CUSTOMER LOOKUP & HISTORY ===
+$('cPh').addEventListener('input', e => {
+  const ph = e.target.value.trim();
+  const custs = getCusts();
+  if (ph.length >= 10 && custs[ph]) {
+    $('cNm').value = custs[ph];
+    $('repBadge').style.display = 'inline-flex';
+    $('viewCustHistBtn').style.display = 'inline-flex';
+    custId = getCustId(ph);
+  } else {
+    $('repBadge').style.display = 'none';
+    if (ph.length >= 10) {
+      custId = getCustId(ph);
+      $('viewCustHistBtn').style.display = 'inline-flex';
+    } else {
+      custId = '';
+      $('viewCustHistBtn').style.display = 'none';
+    }
+  }
+  $('bCid').textContent = custId ? 'CID: ' + custId : 'CID: ---';
+});
+
+$('viewCustHistBtn').addEventListener('click', () => {
+  const ph = $('cPh').value.trim();
+  if (!ph) return;
+  const hist = db(sk('hist_' + ph)) || [];
+  const body = $('custHistBody');
+  body.innerHTML = '';
+  if (hist.length === 0) {
+    body.innerHTML = '<div style="padding:10px;text-align:center;color:var(--text-dim)">No past purchases found for this customer.</div>';
+  } else {
+    const totalSpent = hist.reduce((s, b) => s + b.total, 0);
+    let html = `<div style="background:var(--ac-light);padding:10px;border-radius:8px;margin-bottom:12px;color:var(--ac-hover);font-weight:700">`;
+    html += `Total Visits: ${hist.length} | Loyalty Points: ${totalSpent} pts`;
+    html += `</div>`;
+    hist.slice().reverse().forEach((b, i) => {
+      html += `<div style="border-bottom:1px solid var(--card-border);padding:8px 0">`;
+      html += `<strong style="color:#fff">#${hist.length - i} ${b.billNo}</strong> — <span style="color:var(--text-dim)">${b.date} ${b.time}</span><br>`;
+      html += `<span style="color:var(--green);font-weight:700">₹${b.total}</span> (${b.items.map(it=>it.name+' x'+it.qty).join(', ')})`;
+      html += `</div>`;
+    });
+    body.innerHTML = html;
+  }
+  $('custHistModal').style.display = 'flex';
+});
+
+$('closeCustHistBtn').addEventListener('click', () => {
+  $('custHistModal').style.display = 'none';
+});
+
+// === ALL PAST BILLS HISTORY MODAL FOR SHOP OWNER ===
+$('allPastBillsBtn').addEventListener('click', () => {
+  renderAllPastBills();
+  $('allBillsModal').style.display = 'flex';
+  lucide.createIcons();
+});
+
+$('closeAllBillsBtn').addEventListener('click', () => {
+  $('allBillsModal').style.display = 'none';
+});
+
+$('searchPastBills').addEventListener('input', () => {
+  renderAllPastBills();
+});
+
+function renderAllPastBills() {
+  const query = $('searchPastBills').value.trim().toLowerCase();
+  const allHist = sdb('all_bills_history') || [];
+  const body = $('allBillsBody');
+  body.innerHTML = '';
+
+  let filtered = allHist;
+  if (query) {
+    filtered = allHist.filter(b => 
+      b.billNo.toLowerCase().includes(query) || 
+      b.custName.toLowerCase().includes(query) || 
+      (b.custPhone && b.custPhone.includes(query))
+    );
+  }
+
+  if (filtered.length === 0) {
+    body.innerHTML = '<div class="empty">No bills match your query.</div>';
+    return;
+  }
+
+  [...filtered].reverse().forEach(b => {
+    const div = document.createElement('div');
+    div.className = 'si';
+    div.innerHTML = `
+      <div>
+        <div class="si-b">${b.billNo}</div>
+        <div class="si-d">👤 ${b.custName} (${b.custPhone || 'Walk-in'})</div>
+        <div class="si-d" style="color:var(--text-dim)">📅 ${b.date} at ${b.time}</div>
+      </div>
+      <div style="text-align:right">
+        <div class="si-a">₹${b.total.toLocaleString('en-IN')}</div>
+        <div class="si-d">${b.items.length} items</div>
+      </div>
+    `;
+    body.appendChild(div);
+  });
+}
+
+// === CART ===
+function renderCart(){
+  const tb=$('cBody'); tb.innerHTML=''; billTotal=0;
+  if(!cart.length){$('cTbl').style.display='none';$('gtW').style.display='none';return}
+  $('cTbl').style.display='table';$('gtW').style.display='block';
+  cart.forEach((it,i)=>{
+    const t=it.price*it.qty; billTotal+=t;
+    const tr=document.createElement('tr');
+    tr.innerHTML=`<td>${it.name}</td><td>${it.qty}</td><td>₹${it.price}</td><td>₹${t}</td><td><button class="btn brem" onclick="removeItem(${i})"><i data-lucide="x" style="width:11px;height:11px"></i></button></td>`;
+    tb.appendChild(tr);
+  });
+  $('gT').textContent=billTotal.toLocaleString('en-IN');
+  lucide.createIcons();
+}
+window.removeItem=i=>{cart.splice(i,1);renderCart()};
+
+$('addBtn').addEventListener('click',()=>{
+  const name=$('iN').value.trim(), price=parseFloat($('iP').value), qty=parseInt($('iQ').value);
+  if(!name||isNaN(price)||price<=0||isNaN(qty)||qty<=0){alert('Enter valid item details.');return}
+  cart.push({name,price,qty});
+  $('iN').value='';$('iP').value='';$('iQ').value='1';$('iN').focus();
+  renderCart();
+});
+
+// === FINALIZE BILL ===
+function finalizeBill(){
+  const phone=$('cPh').value.trim(), name=$('cNm').value.trim();
+  if(phone&&phone.length>=10&&name){const c=getCusts();c[phone]=name;saveCusts(c)}
+  if(phone&&phone.length>=10)custId=getCustId(phone);
+  const referralCode = $('referralInput') ? $('referralInput').value.trim() : '';
+  const bill={
+    billNo,custId:custId||'WALK-IN',custName:name||'Walk-in Customer',
+    custPhone:phone||'',items:[...cart],total:billTotal,
+    paymentMode: paymentMode,
+    referralCodeUsed: referralCode||null,
+    time:new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',hour12:true}),
+    date:new Date().toLocaleDateString('en-IN'),timestamp:new Date().toISOString()
+  };
+  const bills=getBills(); bills.push(bill); saveBills(bills);
+  // credit referral point if code present
+  if(referralCode){
+    let shops = db('bwm_all_shops')||[];
+    const refShop = shops.find(s=> s.referralCode===referralCode);
+    if(refShop){
+      refShop.referralPoints = (refShop.referralPoints||0)+1;
+      db('bwm_all_shops', shops);
+      alert(`✅ Referral point added to ${refShop.name}`);
+    }
+  }
+  if(phone){const hk=sk('hist_'+phone);const h=db(hk)||[];h.push(bill);db(hk,h)}
+  refreshDash();
+  return bill;
+}
+
+
+// === GENERATE BILL IMAGE ===
+async function generateBillImage(bill){
+  $('rShop').textContent=shopName.toUpperCase();
+  let meta=`📋 Bill No: ${bill.billNo}\n`;
+  meta+=`🆔 Customer ID: ${bill.custId}\n`;
+  meta+=`👤 Customer: ${bill.custName}\n`;
+  meta+=`📅 Date: ${bill.date}  🕐 Time: ${bill.time}\n`;
+  meta+=`💳 Payment: ${bill.paymentMode || 'Cash'}`;
+  $('rMeta').innerText=meta;
+  const tb=$('rItems');tb.innerHTML='';
+  bill.items.forEach(it=>{const tr=document.createElement('tr');tr.innerHTML=`<td>${it.name}</td><td>×${it.qty}</td><td>₹${it.price*it.qty}</td>`;tb.appendChild(tr)});
+  $('rTot').textContent='₹'+bill.total.toLocaleString('en-IN');
+  const ph=bill.custPhone;
+  const hist=db(sk('hist_'+(ph||'x')))||[];
+  const spent=hist.reduce((s,b)=>s+b.total,0);
+  $('rLoy').innerHTML=`⭐ Loyalty Points: <b>${spent}</b> | Visits: <b>${hist.length}</b><br>🎁 Visit again for exclusive rewards!`;
+  $('rFoot').innerHTML=`Thank you, ${bill.custName}!<br>See you again at ${shopName}! 💙<br>─────<br>Powered by Bill With Me`;
+
+  const el=$('receiptRender');
+  el.style.left='0';el.style.position='fixed';el.style.zIndex='-1';
+  const canvas=await html2canvas(el,{scale:2,backgroundColor:'#ffffff',useCORS:true});
+  el.style.left='-9999px';el.style.position='absolute';
+
+  return new Promise(resolve=>{canvas.toBlob(blob=>{resolve({blob,url:canvas.toDataURL('image/png')});},'image/png');});
+}
+
+// === BILL DONE BUTTON ===
+$('doneBtn').addEventListener('click',async()=>{
+  const phone=$('cPh').value.trim();
+  if(!phone||phone.length<10){alert('Enter customer WhatsApp number.');return}
+  if(!cart.length){alert('Add items to the bill first.');return}
+
+  showLoading();
+  const bill=finalizeBill();
+  currentBillData=bill;
+
+  const {blob,url}=await generateBillImage(bill);
+  billImgBlob=blob;
+
+  hideLoading();
+  $('successOverlay').style.display='flex';
+  lucide.createIcons();
+});
+
+// === DIRECT WHATSAPP CHAT WITH CUSTOMER ===
+$('directWaChatBtn').addEventListener('click', () => {
+  if (!currentBillData) return;
+  const phone = currentBillData.custPhone || $('cPh').value.trim();
+  const name = currentBillData.custName || 'Customer';
+
+  let msg = `━━━━━━━━━━━━━━━━━━━━\n`;
+  msg += `  🏪 *${shopName.toUpperCase()}*\n`;
+  msg += `━━━━━━━━━━━━━━━━━━━━\n`;
+  msg += `📋 *Bill No:* ${currentBillData.billNo}\n`;
+  msg += `🆔 *Customer ID:* ${currentBillData.custId}\n`;
+  msg += `👤 *Customer:* ${name}\n`;
+  msg += `📅 *Date:* ${currentBillData.date}\n`;
+  msg += `🕐 *Time:* ${currentBillData.time}\n`;
+  msg += `💳 *Payment Mode:* ${currentBillData.paymentMode || 'Cash'}\n`;
+  msg += `────────────────────\n`;
+
+  currentBillData.items.forEach(item => {
+    const t = item.price * item.qty;
+    msg += `▸ ${item.name} × ${item.qty} = ₹${t}\n`;
+  });
+
+  msg += `────────────────────\n`;
+  msg += `💰 *GRAND TOTAL: ₹${currentBillData.total.toLocaleString('en-IN')}*\n`;
+  msg += `────────────────────\n\n`;
+  msg += `💙 Thank you ${name}! Visit us again at *${shopName}*!\n`;
+  msg += `_Powered by Bill With Me_`;
+
+  window.open(getCleanWhatsAppUrl(phone, msg), '_blank');
+  closeOverlay();
+  newBill();
+});
+
+// === SHARE BILL IMAGE ON WHATSAPP ===
+$('shareWaBtn').addEventListener('click',async()=>{
+  const phone=$('cPh').value.trim();
+
+  if(navigator.canShare&&billImgBlob){
+    const file=new File([billImgBlob],`bill_${billNo}.png`,{type:'image/png'});
+    if(navigator.canShare({files:[file]})){
+      try{
+        await navigator.share({files:[file],title:`Bill from ${shopName}`,text:`Invoice from ${shopName}`});
+        closeOverlay();newBill();return;
+      }catch(e){/* user cancelled */}
+    }
+  }
+
+  downloadBillImage();
+  const msg=`Hi! Here's your invoice from *${shopName}*. Bill No: ${billNo}. (Downloaded bill image). Thank you! 💙`;
+  window.open(getCleanWhatsAppUrl(phone, msg),'_blank');
+  closeOverlay();newBill();
+});
+
+// === DOWNLOAD ===
+$('dlBtn').addEventListener('click',downloadBillImage);
+function downloadBillImage(){
+  if(!billImgBlob)return;
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(billImgBlob);
+  a.download=`bill_${billNo}.png`;
+  a.click();URL.revokeObjectURL(a.href);
+}
+
+// === CLOSE OVERLAY ===
+$('closeOvBtn').addEventListener('click',closeOverlay);
+$('billOverlay').addEventListener('click',e=>{if(e.target===$('billOverlay'))closeOverlay()});
+function closeOverlay(){$('billOverlay').style.display='none';newBill()}
+
+// === SUCCESS OVERLAY CONTINUE BUTTON ===
+$('successOkBtn').addEventListener('click', () => {
+  if (!currentBillData) return;
+  const phone = currentBillData.custPhone || $('cPh').value.trim();
+  const name = currentBillData.custName || 'Customer';
+  let msg = `━━━━━━━━━━━━━━━━━━━━\n`;
+  msg += `  🏪 *${shopName.toUpperCase()}*\n`;
+  msg += `━━━━━━━━━━━━━━━━━━━━\n`;
+  msg += `📋 *Bill No:* ${currentBillData.billNo}\n`;
+  msg += `🆔 *Customer ID:* ${currentBillData.custId}\n`;
+  msg += `👤 *Customer:* ${name}\n`;
+  msg += `📅 *Date:* ${currentBillData.date}\n`;
+  msg += `🕐 *Time:* ${currentBillData.time}\n`;
+  msg += `💳 *Payment Mode:* ${currentBillData.paymentMode || 'Cash'}\n`;
+  msg += `────────────────────\n`;
+  currentBillData.items.forEach(item => {
+    const t = item.price * item.qty;
+    msg += `▸ ${item.name} × ${item.qty} = ₹${t}\n`;
+  });
+  msg += `────────────────────\n`;
+  msg += `💰 *GRAND TOTAL: ₹${currentBillData.total.toLocaleString('en-IN')}*\n`;
+  msg += `────────────────────\n\n`;
+  msg += `💙 Thank you ${name}! Visit us again at *${shopName}*!\n`;
+  msg += `_Powered by Bill With Me_`;
+  window.open(getCleanWhatsAppUrl(phone, msg), '_blank');
+  $('successOverlay').style.display='none';
+  newBill();
+});
+
+// === SHOP DASHBOARD ===
+function refreshDash(){
+  const bills=getBills();
+  const rev=bills.reduce((s,b)=>s+b.total,0);
+  const uc=new Set(bills.map(b=>b.custPhone||b.custId)).size;
+  $('sR').textContent='₹'+rev.toLocaleString('en-IN');
+  $('sB').textContent=bills.length;
+  $('sC').textContent=uc;
+  const list=$('salesList');
+  if(!bills.length){list.innerHTML='<div class="empty">No bills today yet — start billing! 🚀</div>';return}
+  list.innerHTML='';
+  [...bills].reverse().forEach(b=>{
+    const d=document.createElement('div');d.className='si';
+    d.innerHTML=`<div><div class="si-b">${b.billNo}</div><div class="si-d">${b.custName} · ${b.time}</div></div><div class="si-a">₹${b.total.toLocaleString('en-IN')}</div>`;
+    list.appendChild(d);
+  });
+}
+
+// === SHOP OWNER DAILY REPORT ===
+$('reportBtn').addEventListener('click',()=>{
+  if(!ownerPhone){alert('Owner phone not set.');return}
+  const bills=getBills();
+  const rev=bills.reduce((s,b)=>s+b.total,0);
+  const uc=new Set(bills.map(b=>b.custPhone||b.custId)).size;
+  let m=`━━━━━━━━━━━━━━━━━━━━\n  📊 *${shopName.toUpperCase()} — DAILY REPORT*\n━━━━━━━━━━━━━━━━━━━━\n`;
+  m+=`📅 Date: ${new Date().toLocaleDateString('en-IN')}\n\n`;
+  m+=`💰 *Revenue: ₹${rev.toLocaleString('en-IN')}*\n📋 Bills: ${bills.length}\n👥 Customers: ${uc}\n────────────────────\n`;
+  if(bills.length){m+=`\n📝 *Breakdown:*\n`;bills.forEach(b=>{m+=`  ${b.billNo} | ${b.custName} | ₹${b.total} | ${b.time}\n`})}
+  m+=`\n_Powered by Bill With Me_`;
+  window.open(getCleanWhatsAppUrl(ownerPhone, m),'_blank');
+});
+</script>
+</body>
+</html>

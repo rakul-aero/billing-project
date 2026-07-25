@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Features - Bill With Me</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    .page-header { padding: 8rem 0 4rem; text-align: center; background: linear-gradient(135deg, var(--bg-color) 0%, #E0E7FF 100%); }
+    .feature-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 4rem; }
+  </style>
+</head>
+<body>
+  <nav class="public-navbar glass">
+    <div class="container flex justify-between items-center" style="height: 100%">
+      <a href="index.html" class="sidebar-brand text-primary flex items-center gap-2">
+        <img src="images/logo.jpg" alt="Bill With Me Logo" style="width: 28px; height: 28px; border-radius: 6px;">
+        <span>Bill With Me</span>
+      </a>
+      <div class="public-nav-links flex items-center">
+        <a href="features.html" class="text-primary font-bold">Features</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="flex items-center" style="gap: 1rem;">
+        <a href="login.html" class="btn btn-outline">Login</a>
+        <a href="register.html" class="btn btn-primary">Start Free Trial</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <div class="container animate-fade-in">
+      <h1 style="font-size: 3rem; margin-bottom: 1rem;">Powerful Features for Smart Businesses</h1>
+      <p class="text-muted" style="font-size: 1.25rem;">Everything you need to manage billing, inventory, and customers.</p>
+    </div>
+  </div>
+
+  <div class="container section">
+    <div class="feature-list">
+      <div class="card p-6 shadow-md">
+        <div class="stat-icon primary mb-4"><i data-lucide="calculator"></i></div>
+        <h3>GST & Non-GST Billing</h3>
+        <p class="text-muted mt-2">Generate professional invoices with automatic tax calculations in seconds.</p>
+      </div>
+      <div class="card p-6 shadow-md">
+        <div class="stat-icon accent mb-4"><i data-lucide="smartphone"></i></div>
+        <h3>WhatsApp Integration</h3>
+        <p class="text-muted mt-2">Share digital invoices directly to your customers' WhatsApp instantly.</p>
+      </div>
+      <div class="card p-6 shadow-md">
+        <div class="stat-icon warning mb-4"><i data-lucide="barcode"></i></div>
+        <h3>Barcode Scanning</h3>
+        <p class="text-muted mt-2">Connect a barcode scanner or use your smartphone camera to add products quickly.</p>
+      </div>
+      <div class="card p-6 shadow-md">
+        <div class="stat-icon" style="background: var(--primary-light); color: var(--primary);"><i data-lucide="package"></i></div>
+        <h3 class="mt-4">Inventory Management</h3>
+        <p class="text-muted mt-2">Track stock levels, set low stock alerts, and manage suppliers.</p>
+      </div>
+      <div class="card p-6 shadow-md">
+        <div class="stat-icon" style="background: #FEE2E2; color: #DC2626;"><i data-lucide="indian-rupee"></i></div>
+        <h3 class="mt-4">Expense Tracking</h3>
+        <p class="text-muted mt-2">Record daily expenses and categorize them to calculate your true profit.</p>
+      </div>
+      <div class="card p-6 shadow-md">
+        <div class="stat-icon" style="background: var(--accent-light); color: var(--accent);"><i data-lucide="pie-chart"></i></div>
+        <h3 class="mt-4">Advanced Analytics</h3>
+        <p class="text-muted mt-2">Beautiful charts and graphs to understand sales trends and top products.</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script><script>lucide.createIcons();</script>
+</body>
+</html>

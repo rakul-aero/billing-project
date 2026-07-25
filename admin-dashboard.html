@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Bill With Me</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    .admin-sidebar {
+      background: #0F172A; /* Darker sidebar for admin */
+    }
+    .admin-sidebar .sidebar-brand {
+      color: white;
+    }
+    .admin-sidebar .nav-link {
+      color: #94A3B8;
+    }
+    .admin-sidebar .nav-link:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+    .admin-sidebar .nav-link.active {
+      background-color: var(--primary);
+      color: white;
+    }
+    .admin-sidebar .sidebar-header {
+      border-bottom-color: rgba(255, 255, 255, 0.1);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-layout" id="app-layout">
+    <!-- Admin Sidebar -->
+    <aside class="sidebar admin-sidebar">
+      <div class="sidebar-header">
+        <a href="admin-dashboard.html" class="sidebar-brand flex items-center gap-2">
+          <img src="images/logo.jpg" alt="Logo" style="width: 28px; height: 28px; border-radius: 6px;">
+          <span>Admin Portal</span>
+        </a>
+      </div>
+      <div class="sidebar-nav">
+        <div class="nav-item"><a href="admin-dashboard.html" class="nav-link active"><i data-lucide="layout-dashboard"></i> Dashboard</a></div>
+        <div class="nav-item"><a href="admin-create-shop.html" class="nav-link"><i data-lucide="store"></i> Create Shop</a></div>
+        <div class="nav-item"><a href="admin-manage-shops.html" class="nav-link"><i data-lucide="list"></i> Manage Shops</a></div>
+        <div class="nav-item"><a href="admin-manage-users.html" class="nav-link"><i data-lucide="users"></i> Manage Users</a></div>
+        <div class="nav-item"><a href="admin-revenue.html" class="nav-link"><i data-lucide="indian-rupee"></i> Revenue</a></div>
+        <div class="nav-item"><a href="admin-support.html" class="nav-link"><i data-lucide="life-buoy"></i> Support</a></div>
+      </div>
+      <div class="sidebar-footer" style="border-top-color: rgba(255, 255, 255, 0.1);">
+        <div class="nav-item"><a href="admin-settings.html" class="nav-link"><i data-lucide="settings"></i> System Settings</a></div>
+        <div class="nav-item"><a href="login.html" class="nav-link text-danger"><i data-lucide="log-out"></i> Logout</a></div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <header class="topbar">
+        <div class="flex items-center gap-4">
+          <button class="mobile-toggle" id="mobile-toggle"><i data-lucide="menu"></i></button>
+          <h2 style="font-size: 1.25rem;">Super Admin Dashboard</h2>
+        </div>
+        <div class="flex items-center gap-4">
+          <span class="badge badge-primary">System Online</span>
+          <div style="width: 35px; height: 35px; background: #0F172A; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white;">
+            <i data-lucide="shield" style="width: 18px;"></i>
+          </div>
+        </div>
+      </header>
+
+      <div class="content-area">
+        <div class="flex justify-between items-center mb-6">
+          <h3 style="font-size: 1.1rem; color: var(--text-muted);">System Overview</h3>
+          <a href="admin-create-shop.html" class="btn btn-primary"><i data-lucide="plus"></i> Onboard New Shop</a>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 animate-fade-in">
+          <div class="stat-card">
+            <div class="stat-icon primary"><i data-lucide="store"></i></div>
+            <div class="stat-info">
+              <h4>Total Shops</h4>
+              <div class="value">1,248</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon accent"><i data-lucide="users"></i></div>
+            <div class="stat-info">
+              <h4>Active Users</h4>
+              <div class="value">4,592</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon warning"><i data-lucide="indian-rupee"></i></div>
+            <div class="stat-info">
+              <h4>MRR (Revenue)</h4>
+              <div class="value">₹ 2.4L</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon" style="background: var(--primary-light); color: var(--primary);"><i data-lucide="file-text"></i></div>
+            <div class="stat-info">
+              <h4>Total Bills Gen</h4>
+              <div class="value">1.2M</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card animate-fade-in">
+          <div class="card-header">
+            <h3>Recent Shop Registrations</h3>
+            <a href="admin-manage-shops.html" class="text-primary" style="font-size: 0.875rem;">View All</a>
+          </div>
+          <div class="table-wrapper">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Shop ID</th>
+                  <th>Shop Name</th>
+                  <th>Owner</th>
+                  <th>Status</th>
+                  <th>Subscription</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="font-weight: 500;">SHP-9021</td>
+                  <td>Gupta Groceries</td>
+                  <td>Rahul Gupta</td>
+                  <td><span class="badge badge-success">Active</span></td>
+                  <td>Free Trial (28 days left)</td>
+                  <td><button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">Manage</button></td>
+                </tr>
+                <tr>
+                  <td style="font-weight: 500;">SHP-9020</td>
+                  <td>Metro Electronics</td>
+                  <td>Suresh Kumar</td>
+                  <td><span class="badge badge-success">Active</span></td>
+                  <td>Pro Plan (Annual)</td>
+                  <td><button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">Manage</button></td>
+                </tr>
+                <tr>
+                  <td style="font-weight: 500;">SHP-9019</td>
+                  <td>Sharma Medicals</td>
+                  <td>Priya Sharma</td>
+                  <td><span class="badge badge-danger">Suspended</span></td>
+                  <td>Expired</td>
+                  <td><button class="btn btn-outline" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">Manage</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script>lucide.createIcons();</script>
+</body>
+</html>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Billing - Bill With Me</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    .pos-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 1.5rem;
+    }
+    @media (max-width: 1024px) {
+      .pos-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .pos-items {
+      min-height: 300px;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+    .totals-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+    }
+    .totals-row.grand-total {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--primary);
+      border-top: 2px dashed var(--border-color);
+      padding-top: 1rem;
+      margin-top: 1rem;
+    }
+    .payment-methods {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .payment-btn {
+      padding: 0.75rem;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      background: var(--surface);
+      text-align: center;
+      cursor: pointer;
+      font-weight: 500;
+    }
+    .payment-btn.active {
+      border-color: var(--primary);
+      background: var(--primary-light);
+      color: var(--primary);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-layout" id="app-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <a href="shop-dashboard.html" class="sidebar-brand flex items-center gap-2">
+          <img src="images/logo.jpg" alt="Logo" style="width: 28px; height: 28px; border-radius: 6px;">
+          <span>Bill With Me</span>
+        </a>
+      </div>
+      <div class="sidebar-nav">
+        <div class="nav-item"><a href="shop-dashboard.html" class="nav-link"><i data-lucide="layout-dashboard"></i> Dashboard</a></div>
+        <div class="nav-item"><a href="shop-billing.html" class="nav-link active"><i data-lucide="calculator"></i> Billing POS</a></div>
+        <div class="nav-item"><a href="shop-products.html" class="nav-link"><i data-lucide="shopping-cart"></i> Products</a></div>
+        <div class="nav-item"><a href="shop-customers.html" class="nav-link"><i data-lucide="users"></i> Customers</a></div>
+        <div class="nav-item"><a href="shop-inventory.html" class="nav-link"><i data-lucide="package"></i> Inventory</a></div>
+        <div class="nav-item"><a href="shop-expenses.html" class="nav-link"><i data-lucide="indian-rupee"></i> Expenses</a></div>
+        <div class="nav-item"><a href="shop-reports.html" class="nav-link"><i data-lucide="file-text"></i> Reports</a></div>
+        <div class="nav-item"><a href="shop-analytics.html" class="nav-link"><i data-lucide="pie-chart"></i> Analytics</a></div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <header class="topbar">
+        <div class="flex items-center gap-4">
+          <button class="mobile-toggle" id="mobile-toggle"><i data-lucide="menu"></i></button>
+          <h2 style="font-size: 1.25rem;">Billing POS</h2>
+        </div>
+      </header>
+
+      <div class="content-area">
+        
+        <div class="pos-grid animate-fade-in">
+          
+          <!-- Left Column: Products and Customer -->
+          <div class="flex-col gap-6 flex">
+            <!-- Customer Details -->
+            <div class="card">
+              <div class="card-header">
+                <h3>Customer Details</h3>
+              </div>
+              <div class="card-body">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div class="form-group mb-0">
+                    <label class="form-label">Phone Number <span class="text-danger">*</span></label>
+                    <div class="flex gap-2">
+                      <input type="text" id="customer-phone" class="form-control" placeholder="Search or Enter Mobile">
+                      <button class="btn btn-outline"><i data-lucide="search"></i></button>
+                    </div>
+                  </div>
+                  <div class="form-group mb-0">
+                    <label class="form-label">Customer Name</label>
+                    <input type="text" class="form-control" placeholder="Enter Name">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Add Product -->
+            <div class="card">
+              <div class="card-header flex justify-between items-center">
+                <h3>Add Products</h3>
+                <div class="flex items-center gap-2">
+                  <input type="text" class="form-control" placeholder="Barcode Scanner..." style="width: 200px;">
+                  <button class="btn btn-outline"><i data-lucide="barcode"></i></button>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="flex gap-4 mb-4">
+                  <input type="text" id="product-search" class="form-control" placeholder="Search product by name (e.g., Mouse)...">
+                  <button id="add-custom-btn" class="btn btn-primary">Add Item</button>
+                </div>
+
+                <!-- Product List -->
+                <div class="table-wrapper pos-items">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Item</th>
+                        <th width="100">Qty</th>
+                        <th width="120">Price</th>
+                        <th width="100">GST(%)</th>
+                        <th width="120">Total</th>
+                        <th width="50"></th>
+                      </tr>
+                    </thead>
+                    <tbody id="cart-table-body">
+                      <!-- Rendered by pos.js -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Summary & Payment -->
+          <div class="card" style="height: fit-content;">
+            <div class="card-header">
+              <h3>Bill Summary</h3>
+              <input type="text" id="invoice-number" class="form-control" style="width: 120px; text-align: center; font-size: 0.875rem;" readonly>
+            </div>
+            <div class="card-body">
+              <div class="totals-row">
+                <span class="text-muted">Subtotal</span>
+                <span id="subtotal-val">₹ 0.00</span>
+              </div>
+              <div class="totals-row">
+                <span class="text-muted">Discount</span>
+                <input type="number" id="discount-input" class="form-control" placeholder="0.00" style="width: 80px; padding: 0.25rem; text-align: right; height: 30px;">
+              </div>
+              <div class="totals-row">
+                <span class="text-muted">Total GST</span>
+                <span id="gst-val">₹ 0.00</span>
+              </div>
+              
+              <div class="totals-row grand-total">
+                <span>Grand Total</span>
+                <span>₹ <span id="grand-total">885.00</span></span>
+              </div>
+
+              <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 1.5rem 0;">
+
+              <h4 class="mb-2">Payment Method</h4>
+              <div class="payment-methods">
+                <div class="payment-btn active"><i data-lucide="banknote" style="margin: 0 auto 0.25rem;"></i> Cash</div>
+                <div class="payment-btn"><i data-lucide="smartphone" style="margin: 0 auto 0.25rem;"></i> UPI</div>
+                <div class="payment-btn"><i data-lucide="credit-card" style="margin: 0 auto 0.25rem;"></i> Card</div>
+                <div class="payment-btn"><i data-lucide="clock" style="margin: 0 auto 0.25rem;"></i> Credit</div>
+              </div>
+
+              <div class="flex flex-col gap-2 mt-4">
+                <button id="btn-save-bill" class="btn btn-primary w-full btn-lg"><i data-lucide="check-circle"></i> Generate & Save Bill</button>
+                <div class="grid grid-cols-2 gap-2 mt-2">
+                  <button id="btn-print" class="btn btn-outline w-full"><i data-lucide="printer"></i> Print</button>
+                  <button class="btn btn-outline w-full" onclick="window.print()"><i data-lucide="download"></i> PDF</button>
+                </div>
+                <!-- WhatsApp Share Button -->
+                <button id="btn-whatsapp-share" class="btn btn-accent w-full mt-2" style="background-color: #25D366; color: white;">
+                  <i data-lucide="message-circle"></i> Share to WhatsApp
+                </button>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script src="js/pos.js"></script>
+  <script>
+    lucide.createIcons();
+    
+    // Toggle active state for payment methods
+    const paymentBtns = document.querySelectorAll('.payment-btn');
+    paymentBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        paymentBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>

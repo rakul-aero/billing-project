@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Manage Shops - Bill With Me</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    .admin-sidebar { background: #0F172A; }
+    .admin-sidebar .sidebar-brand { color: white; }
+    .admin-sidebar .nav-link { color: #94A3B8; }
+    .admin-sidebar .nav-link:hover { background-color: rgba(255, 255, 255, 0.1); color: white; }
+    .admin-sidebar .nav-link.active { background-color: var(--primary); color: white; }
+    .admin-sidebar .sidebar-header { border-bottom-color: rgba(255, 255, 255, 0.1); }
+  </style>
+</head>
+<body>
+  <div class="app-layout" id="app-layout">
+    <aside class="sidebar admin-sidebar">
+      <div class="sidebar-header">
+        <a href="admin-dashboard.html" class="sidebar-brand flex items-center gap-2">
+          <img src="images/logo.jpg" alt="Logo" style="width: 28px; height: 28px; border-radius: 6px;">
+          <span>Admin Portal</span>
+        </a>
+      </div>
+      <div class="sidebar-nav">
+        <div class="nav-item"><a href="admin-dashboard.html" class="nav-link"><i data-lucide="layout-dashboard"></i> Dashboard</a></div>
+        <div class="nav-item"><a href="admin-create-shop.html" class="nav-link"><i data-lucide="store"></i> Create Shop</a></div>
+        <div class="nav-item"><a href="admin-manage-shops.html" class="nav-link active"><i data-lucide="list"></i> Manage Shops</a></div>
+        <div class="nav-item"><a href="admin-manage-users.html" class="nav-link"><i data-lucide="users"></i> Manage Users</a></div>
+        <div class="nav-item"><a href="admin-revenue.html" class="nav-link"><i data-lucide="indian-rupee"></i> Revenue</a></div>
+        <div class="nav-item"><a href="admin-support.html" class="nav-link"><i data-lucide="life-buoy"></i> Support</a></div>
+      </div>
+      <div class="sidebar-footer" style="border-top-color: rgba(255, 255, 255, 0.1);">
+        <div class="nav-item"><a href="admin-settings.html" class="nav-link"><i data-lucide="settings"></i> System Settings</a></div>
+        <div class="nav-item"><a href="login.html" class="nav-link text-danger"><i data-lucide="log-out"></i> Logout</a></div>
+      </div>
+    </aside>
+    <main class="main-content">
+      <header class="topbar">
+        <div class="flex items-center gap-4"><button class="mobile-toggle" id="mobile-toggle"><i data-lucide="menu"></i></button><h2 style="font-size: 1.25rem;">Manage Shops</h2></div>
+      </header>
+      <div class="content-area">
+        <div class="card animate-fade-in p-6">
+          <div class="flex justify-between items-center mb-6">
+            <input type="text" class="form-control" placeholder="Search Shop ID or Name..." style="max-width: 300px;">
+            <a href="admin-create-shop.html" class="btn btn-primary"><i data-lucide="plus"></i> Add New Shop</a>
+          </div>
+          <div class="table-wrapper">
+            <table class="table">
+              <thead><tr><th>Shop ID</th><th>Shop Name</th><th>Owner</th><th>Status</th><th>Actions</th></tr></thead>
+              <tbody>
+                <tr><td>SHP-9021</td><td>Gupta Groceries</td><td>Rahul Gupta</td><td><span class="badge badge-success">Active</span></td><td><button class="btn btn-outline" style="padding: 0.25rem 0.5rem;">Edit</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="js/main.js"></script><script>lucide.createIcons();</script>
+</body>
+</html>

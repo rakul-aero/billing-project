@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Contact Us - Bill With Me</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    .page-header { padding: 8rem 0 4rem; text-align: center; background: linear-gradient(135deg, var(--bg-color) 0%, #E0E7FF 100%); }
+  </style>
+</head>
+<body>
+  <nav class="public-navbar glass">
+    <div class="container flex justify-between items-center" style="height: 100%">
+      <a href="index.html" class="sidebar-brand text-primary flex items-center gap-2">
+        <img src="images/logo.jpg" alt="Logo" style="width: 28px; height: 28px; border-radius: 6px;">
+        <span>Bill With Me</span>
+      </a>
+      <div class="public-nav-links flex items-center">
+        <a href="features.html">Features</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="about.html">About</a>
+        <a href="contact.html" class="text-primary font-bold">Contact</a>
+      </div>
+      <div class="flex items-center" style="gap: 1rem;">
+        <a href="login.html" class="btn btn-outline">Login</a>
+        <a href="register.html" class="btn btn-primary">Start Free Trial</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <div class="container animate-fade-in">
+      <h1 style="font-size: 3rem; margin-bottom: 1rem;">Contact Support</h1>
+      <p class="text-muted" style="font-size: 1.25rem;">We're here to help your business grow.</p>
+    </div>
+  </div>
+
+  <div class="container section">
+    <div class="card p-8" style="max-width: 600px; margin: 0 auto;">
+      <form>
+        <div class="form-group">
+          <label class="form-label">Name</label>
+          <input type="text" class="form-control" placeholder="Your Name">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input type="email" class="form-control" placeholder="you@example.com">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Message</label>
+          <textarea class="form-control" rows="5" placeholder="How can we help?"></textarea>
+        </div>
+        <button class="btn btn-primary w-full btn-lg">Send Message</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script><script>lucide.createIcons();</script>
+</body>
+</html>

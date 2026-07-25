@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Settings - Bill With Me</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+  <div class="app-layout" id="app-layout">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <a href="shop-dashboard.html" class="sidebar-brand flex items-center gap-2">
+          <img src="images/logo.jpg" alt="Logo" style="width: 28px; height: 28px; border-radius: 6px;">
+          <span>Bill With Me</span>
+        </a>
+      </div>
+      <div class="sidebar-nav">
+        <div class="nav-item"><a href="shop-dashboard.html" class="nav-link"><i data-lucide="layout-dashboard"></i> Dashboard</a></div>
+        <div class="nav-item"><a href="shop-billing.html" class="nav-link"><i data-lucide="calculator"></i> Billing POS</a></div>
+        <div class="nav-item"><a href="shop-products.html" class="nav-link"><i data-lucide="shopping-cart"></i> Products</a></div>
+        <div class="nav-item"><a href="shop-customers.html" class="nav-link"><i data-lucide="users"></i> Customers</a></div>
+        <div class="nav-item"><a href="shop-inventory.html" class="nav-link"><i data-lucide="package"></i> Inventory</a></div>
+        <div class="nav-item"><a href="shop-expenses.html" class="nav-link"><i data-lucide="indian-rupee"></i> Expenses</a></div>
+        <div class="nav-item"><a href="shop-reports.html" class="nav-link"><i data-lucide="file-text"></i> Reports</a></div>
+        <div class="nav-item"><a href="shop-analytics.html" class="nav-link"><i data-lucide="pie-chart"></i> Analytics</a></div>
+      </div>
+      <div class="sidebar-footer">
+        <div class="nav-item"><a href="shop-settings.html" class="nav-link active"><i data-lucide="settings"></i> Settings</a></div>
+        <div class="nav-item"><a href="login.html" class="nav-link text-danger"><i data-lucide="log-out"></i> Logout</a></div>
+      </div>
+    </aside>
+    <main class="main-content">
+      <header class="topbar"><h2 style="font-size: 1.25rem;">Settings</h2></header>
+      <div class="content-area">
+        <div class="card animate-fade-in p-6">
+          <h3 class="mb-4">Shop Settings</h3>
+          <form class="grid grid-cols-2 gap-4" style="max-width: 600px;">
+            <div class="form-group col-span-2">
+              <label class="form-label">Shop Logo</label>
+              <input type="file" class="form-control">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Invoice Theme Color</label>
+              <input type="color" class="form-control" value="#2563EB" style="height: 40px; padding: 2px;">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Default Printer</label>
+              <select class="form-control"><option>Thermal (58mm)</option><option>Thermal (80mm)</option><option>A4 Laser</option></select>
+            </div>
+            <div class="form-group col-span-2">
+              <label class="form-label">GST Number</label>
+              <input type="text" class="form-control" value="29XXXXX1234X1X1">
+            </div>
+            <button class="btn btn-primary mt-4">Save Settings</button>
+          </form>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="js/main.js"></script><script>lucide.createIcons();</script>
+</body>
+</html>

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Bill With Me</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <div class="app-layout" id="app-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <a href="shop-dashboard.html" class="sidebar-brand flex items-center gap-2">
+          <img src="images/logo.jpg" alt="Logo" style="width: 28px; height: 28px; border-radius: 6px;">
+          <span>Bill With Me</span>
+        </a>
+      </div>
+      <div class="sidebar-nav">
+        <div class="nav-item">
+          <a href="shop-dashboard.html" class="nav-link active">
+            <i data-lucide="layout-dashboard"></i> Dashboard
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="shop-billing.html" class="nav-link">
+            <i data-lucide="calculator"></i> Billing POS
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="shop-products.html" class="nav-link">
+            <i data-lucide="shopping-cart"></i> Products
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="shop-customers.html" class="nav-link">
+            <i data-lucide="users"></i> Customers
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="shop-inventory.html" class="nav-link">
+            <i data-lucide="package"></i> Inventory
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="shop-expenses.html" class="nav-link">
+            <i data-lucide="indian-rupee"></i> Expenses
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="shop-reports.html" class="nav-link">
+            <i data-lucide="file-text"></i> Reports
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="shop-analytics.html" class="nav-link">
+            <i data-lucide="pie-chart"></i> Analytics
+          </a>
+        </div>
+      </div>
+      <div class="sidebar-footer">
+        <div class="nav-item">
+          <a href="shop-settings.html" class="nav-link">
+            <i data-lucide="settings"></i> Settings
+          </a>
+        </div>
+        <div class="nav-item">
+          <a href="login.html" class="nav-link text-danger" style="color: var(--danger);">
+            <i data-lucide="log-out"></i> Logout
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Topbar -->
+      <header class="topbar">
+        <div class="flex items-center gap-4">
+          <button class="mobile-toggle" id="mobile-toggle">
+            <i data-lucide="menu"></i>
+          </button>
+          <h2 style="font-size: 1.25rem;">Dashboard</h2>
+        </div>
+        <div class="flex items-center gap-6">
+          <button style="position: relative;">
+            <i data-lucide="bell" style="color: var(--text-muted);"></i>
+            <span style="position: absolute; top: -2px; right: -2px; width: 8px; height: 8px; background: var(--danger); border-radius: 50%;"></span>
+          </button>
+          <div class="flex items-center gap-2" style="cursor: pointer;">
+            <div style="width: 35px; height: 35px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 600;">
+              S
+            </div>
+            <div style="display: flex; flex-direction: column;">
+              <span class="shop-name-display" style="font-weight: 600; font-size: 0.875rem;">Sharma Electronics</span>
+              <span class="text-muted" style="font-size: 0.75rem;">Owner</span>
+            </div>
+            <i data-lucide="chevron-down" style="width: 16px; color: var(--text-muted);"></i>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content Area -->
+      <div class="content-area">
+        
+        <!-- Quick Actions -->
+        <div class="flex justify-between items-center mb-6">
+          <h3 style="font-size: 1.1rem; color: var(--text-muted);">Welcome back, Rahul!</h3>
+          <a href="shop-billing.html" class="btn btn-primary shadow-md">
+            <i data-lucide="plus"></i> Create New Bill
+          </a>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 animate-fade-in">
+          <div class="stat-card">
+            <div class="stat-icon primary">
+              <i data-lucide="indian-rupee"></i>
+            </div>
+            <div class="stat-info">
+              <h4>Today's Sales</h4>
+              <div class="value">₹ 14,250</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon accent">
+              <i data-lucide="trending-up"></i>
+            </div>
+            <div class="stat-info">
+              <h4>Today's Profit</h4>
+              <div class="value">₹ 3,450</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon warning">
+              <i data-lucide="file-text"></i>
+            </div>
+            <div class="stat-info">
+              <h4>Bills Today</h4>
+              <div class="value">24</div>
+            </div>
+          </div>
+          <div class="stat-card" style="border-left: 4px solid var(--danger);">
+            <div class="stat-icon" style="background: #FEE2E2; color: #DC2626;">
+              <i data-lucide="alert-triangle"></i>
+            </div>
+            <div class="stat-info">
+              <h4>Low Stock Items</h4>
+              <div class="value">5</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <!-- Main Chart Placeholder -->
+          <div class="card lg:col-span-2">
+            <div class="card-header">
+              <h3 style="font-size: 1.1rem;">Sales Overview</h3>
+              <select class="form-control" style="width: auto; padding: 0.25rem 0.5rem; font-size: 0.875rem;">
+                <option>This Week</option>
+                <option>This Month</option>
+              </select>
+            </div>
+            <div class="card-body" style="height: 300px; display: flex; align-items: flex-end; gap: 1rem; justify-content: center; padding-top: 3rem;">
+              <!-- CSS Mock Bar Chart -->
+              <div style="width: 40px; height: 40%; background: var(--primary-light); border-radius: 4px 4px 0 0; position: relative;"><span style="position:absolute; bottom: -20px; font-size:0.75rem;">Mon</span></div>
+              <div style="width: 40px; height: 60%; background: var(--primary); border-radius: 4px 4px 0 0; position: relative;"><span style="position:absolute; bottom: -20px; font-size:0.75rem;">Tue</span></div>
+              <div style="width: 40px; height: 50%; background: var(--primary-light); border-radius: 4px 4px 0 0; position: relative;"><span style="position:absolute; bottom: -20px; font-size:0.75rem;">Wed</span></div>
+              <div style="width: 40px; height: 80%; background: var(--primary); border-radius: 4px 4px 0 0; position: relative;"><span style="position:absolute; bottom: -20px; font-size:0.75rem;">Thu</span></div>
+              <div style="width: 40px; height: 45%; background: var(--primary-light); border-radius: 4px 4px 0 0; position: relative;"><span style="position:absolute; bottom: -20px; font-size:0.75rem;">Fri</span></div>
+              <div style="width: 40px; height: 95%; background: var(--accent); border-radius: 4px 4px 0 0; position: relative;"><span style="position:absolute; bottom: -20px; font-size:0.75rem;">Sat</span></div>
+              <div style="width: 40px; height: 30%; background: var(--primary-light); border-radius: 4px 4px 0 0; position: relative;"><span style="position:absolute; bottom: -20px; font-size:0.75rem;">Sun</span></div>
+            </div>
+          </div>
+
+          <!-- Recent Bills -->
+          <div class="card lg:col-span-1">
+            <div class="card-header">
+              <h3 style="font-size: 1.1rem;">Recent Bills</h3>
+              <a href="shop-reports.html" class="text-primary" style="font-size: 0.875rem;">View All</a>
+            </div>
+            <div class="card-body" style="padding: 0;">
+              <ul style="list-style: none;">
+                <li style="padding: 1rem 1.5rem; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;">
+                  <div>
+                    <p style="font-weight: 600;">#INV-1024</p>
+                    <p class="text-muted" style="font-size: 0.75rem;">Ramesh Kumar</p>
+                  </div>
+                  <div class="text-right">
+                    <p style="font-weight: 600;">₹ 1,200</p>
+                    <span class="badge badge-success">Paid</span>
+                  </div>
+                </li>
+                <li style="padding: 1rem 1.5rem; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;">
+                  <div>
+                    <p style="font-weight: 600;">#INV-1025</p>
+                    <p class="text-muted" style="font-size: 0.75rem;">Walk-in Customer</p>
+                  </div>
+                  <div class="text-right">
+                    <p style="font-weight: 600;">₹ 450</p>
+                    <span class="badge badge-success">Paid</span>
+                  </div>
+                </li>
+                <li style="padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center;">
+                  <div>
+                    <p style="font-weight: 600;">#INV-1026</p>
+                    <p class="text-muted" style="font-size: 0.75rem;">Suresh Tech</p>
+                  </div>
+                  <div class="text-right">
+                    <p style="font-weight: 600;">₹ 3,500</p>
+                    <span class="badge badge-warning" style="background: #FEF3C7; color: var(--warning);">Pending</span>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>

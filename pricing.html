@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pricing - Bill With Me</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    .page-header { padding: 8rem 0 4rem; text-align: center; background: linear-gradient(135deg, var(--bg-color) 0%, #E0E7FF 100%); }
+    .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 4rem; }
+    .price-card { border: 2px solid var(--border-color); position: relative; }
+    .price-card.popular { border-color: var(--primary); transform: scale(1.05); }
+    .popular-badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--primary); color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <nav class="public-navbar glass">
+    <div class="container flex justify-between items-center" style="height: 100%">
+      <a href="index.html" class="sidebar-brand text-primary flex items-center gap-2">
+        <img src="images/logo.jpg" alt="Logo" style="width: 28px; height: 28px; border-radius: 6px;">
+        <span>Bill With Me</span>
+      </a>
+      <div class="public-nav-links flex items-center">
+        <a href="features.html">Features</a>
+        <a href="pricing.html" class="text-primary font-bold">Pricing</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="flex items-center" style="gap: 1rem;">
+        <a href="login.html" class="btn btn-outline">Login</a>
+        <a href="register.html" class="btn btn-primary">Start Free Trial</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <div class="container animate-fade-in">
+      <h1 style="font-size: 3rem; margin-bottom: 1rem;">Simple, Transparent Pricing</h1>
+      <p class="text-muted" style="font-size: 1.25rem;">Start with a 30-day free trial. No credit card required.</p>
+    </div>
+  </div>
+
+  <div class="container section">
+    <div class="pricing-grid">
+      <div class="card p-8 price-card">
+        <h3>Basic</h3>
+        <div style="font-size: 2.5rem; font-weight: 800; margin: 1rem 0;">₹499<span style="font-size: 1rem; color: var(--text-muted);">/mo</span></div>
+        <ul style="margin: 2rem 0; gap: 1rem; display: flex; flex-direction: column;">
+          <li class="flex items-center gap-2"><i data-lucide="check" class="text-accent"></i> Unlimited Billing</li>
+          <li class="flex items-center gap-2"><i data-lucide="check" class="text-accent"></i> Up to 500 Products</li>
+          <li class="flex items-center gap-2"><i data-lucide="check" class="text-accent"></i> WhatsApp Invoices</li>
+          <li class="flex items-center gap-2 text-muted"><i data-lucide="x"></i> No Advanced Reports</li>
+        </ul>
+        <a href="register.html" class="btn btn-outline w-full">Start Free Trial</a>
+      </div>
+      
+      <div class="card p-8 price-card popular shadow-lg">
+        <div class="popular-badge">MOST POPULAR</div>
+        <h3>Pro</h3>
+        <div style="font-size: 2.5rem; font-weight: 800; margin: 1rem 0; color: var(--primary);">₹999<span style="font-size: 1rem; color: var(--text-muted);">/mo</span></div>
+        <ul style="margin: 2rem 0; gap: 1rem; display: flex; flex-direction: column;">
+          <li class="flex items-center gap-2"><i data-lucide="check" class="text-accent"></i> Everything in Basic</li>
+          <li class="flex items-center gap-2"><i data-lucide="check" class="text-accent"></i> Unlimited Products</li>
+          <li class="flex items-center gap-2"><i data-lucide="check" class="text-accent"></i> Inventory Management</li>
+          <li class="flex items-center gap-2"><i data-lucide="check" class="text-accent"></i> Advanced Reports</li>
+        </ul>
+        <a href="register.html" class="btn btn-primary w-full">Start Free Trial</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script><script>lucide.createIcons();</script>
+</body>
+</html>

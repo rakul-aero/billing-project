@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Products - Bill With Me</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <div class="app-layout" id="app-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <a href="shop-dashboard.html" class="sidebar-brand flex items-center gap-2">
+          <img src="images/logo.jpg" alt="Logo" style="width: 28px; height: 28px; border-radius: 6px;">
+          <span>Bill With Me</span>
+        </a>
+      </div>
+      <div class="sidebar-nav">
+        <div class="nav-item"><a href="shop-dashboard.html" class="nav-link"><i data-lucide="layout-dashboard"></i> Dashboard</a></div>
+        <div class="nav-item"><a href="shop-billing.html" class="nav-link"><i data-lucide="calculator"></i> Billing POS</a></div>
+        <div class="nav-item"><a href="shop-products.html" class="nav-link active"><i data-lucide="shopping-cart"></i> Products</a></div>
+        <div class="nav-item"><a href="shop-customers.html" class="nav-link"><i data-lucide="users"></i> Customers</a></div>
+        <div class="nav-item"><a href="shop-inventory.html" class="nav-link"><i data-lucide="package"></i> Inventory</a></div>
+        <div class="nav-item"><a href="shop-expenses.html" class="nav-link"><i data-lucide="indian-rupee"></i> Expenses</a></div>
+        <div class="nav-item"><a href="shop-reports.html" class="nav-link"><i data-lucide="file-text"></i> Reports</a></div>
+        <div class="nav-item"><a href="shop-analytics.html" class="nav-link"><i data-lucide="pie-chart"></i> Analytics</a></div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <header class="topbar">
+        <div class="flex items-center gap-4">
+          <button class="mobile-toggle" id="mobile-toggle"><i data-lucide="menu"></i></button>
+          <h2 style="font-size: 1.25rem;">Products</h2>
+        </div>
+      </header>
+
+      <div class="content-area">
+        <div class="flex justify-between items-center mb-6">
+          <div class="flex items-center gap-4">
+            <div class="form-group mb-0" style="width: 300px;">
+              <input type="text" class="form-control" placeholder="Search products by name or barcode...">
+            </div>
+            <button class="btn btn-outline"><i data-lucide="filter"></i> Filter</button>
+          </div>
+          <button class="btn btn-primary"><i data-lucide="plus"></i> Add Product</button>
+        </div>
+
+        <div class="card animate-fade-in">
+          <div class="table-wrapper">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Product Details</th>
+                  <th>Barcode/SKU</th>
+                  <th>Category</th>
+                  <th>Purchase Price</th>
+                  <th>Selling Price</th>
+                  <th>Stock</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div class="flex items-center gap-3">
+                      <div style="width: 40px; height: 40px; background: var(--surface-hover); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center;">
+                        <i data-lucide="image" style="color: var(--text-muted); width: 20px;"></i>
+                      </div>
+                      <div>
+                        <p style="font-weight: 500;">Wireless Mouse</p>
+                        <p class="text-muted" style="font-size: 0.75rem;">Supplier: TechWorld</p>
+                      </div>
+                    </div>
+                  </td>
+                  <td>8901234567890</td>
+                  <td>Electronics</td>
+                  <td>₹ 300.00</td>
+                  <td>₹ 450.00</td>
+                  <td><span class="badge badge-success">45 in stock</span></td>
+                  <td>
+                    <div class="flex gap-2">
+                      <button class="btn btn-outline" style="padding: 0.25rem 0.5rem;"><i data-lucide="edit" style="width: 16px;"></i></button>
+                      <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; color: var(--danger); border-color: #FEE2E2;"><i data-lucide="trash-2" style="width: 16px;"></i></button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="flex items-center gap-3">
+                      <div style="width: 40px; height: 40px; background: var(--surface-hover); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center;">
+                        <i data-lucide="image" style="color: var(--text-muted); width: 20px;"></i>
+                      </div>
+                      <div>
+                        <p style="font-weight: 500;">USB-C Cable</p>
+                        <p class="text-muted" style="font-size: 0.75rem;">Supplier: Cables India</p>
+                      </div>
+                    </div>
+                  </td>
+                  <td>8901234567891</td>
+                  <td>Accessories</td>
+                  <td>₹ 80.00</td>
+                  <td>₹ 150.00</td>
+                  <td><span class="badge badge-danger">3 left (Low)</span></td>
+                  <td>
+                    <div class="flex gap-2">
+                      <button class="btn btn-outline" style="padding: 0.25rem 0.5rem;"><i data-lucide="edit" style="width: 16px;"></i></button>
+                      <button class="btn btn-outline" style="padding: 0.25rem 0.5rem; color: var(--danger); border-color: #FEE2E2;"><i data-lucide="trash-2" style="width: 16px;"></i></button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script>lucide.createIcons();</script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Login - Bill With Me</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body style="background: #0F172A; color: white;">
+  <div class="auth-container" style="background: #0F172A;">
+    <div class="card auth-card shadow-lg animate-fade-in" style="background: #1E293B; border: 1px solid rgba(255,255,255,0.1);">
+      <div class="auth-header">
+        <div class="flex items-center justify-center gap-2 mb-4">
+          <i data-lucide="shield-check" style="color: var(--primary); width: 48px; height: 48px;"></i>
+        </div>
+        <h2 style="color: white;">Super Admin Portal</h2>
+        <p class="text-muted mt-2">Secure access required</p>
+      </div>
+      <form id="admin-login-form">
+        <div class="form-group">
+          <label class="form-label" style="color: #94A3B8;">Admin ID</label>
+          <input type="text" class="form-control" style="background: #0F172A; border-color: #334155; color: white;" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" style="color: #94A3B8;">Master Password</label>
+          <input type="password" class="form-control" style="background: #0F172A; border-color: #334155; color: white;" required>
+        </div>
+        <button type="submit" class="btn btn-primary w-full mt-4 btn-lg">Secure Login</button>
+      </form>
+    </div>
+  </div>
+  <script>lucide.createIcons(); document.getElementById('admin-login-form').addEventListener('submit', function(e) { e.preventDefault(); window.location.href = 'admin-dashboard.html'; });</script>
+</body>
+</html>

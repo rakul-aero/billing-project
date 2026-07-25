@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Customers - Bill With Me</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+  <div class="app-layout" id="app-layout">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <a href="shop-dashboard.html" class="sidebar-brand flex items-center gap-2">
+          <img src="images/logo.jpg" alt="Logo" style="width: 28px; height: 28px; border-radius: 6px;">
+          <span>Bill With Me</span>
+        </a>
+      </div>
+      <div class="sidebar-nav">
+        <div class="nav-item"><a href="shop-dashboard.html" class="nav-link"><i data-lucide="layout-dashboard"></i> Dashboard</a></div>
+        <div class="nav-item"><a href="shop-billing.html" class="nav-link"><i data-lucide="calculator"></i> Billing POS</a></div>
+        <div class="nav-item"><a href="shop-products.html" class="nav-link"><i data-lucide="shopping-cart"></i> Products</a></div>
+        <div class="nav-item"><a href="shop-customers.html" class="nav-link active"><i data-lucide="users"></i> Customers</a></div>
+        <div class="nav-item"><a href="shop-inventory.html" class="nav-link"><i data-lucide="package"></i> Inventory</a></div>
+        <div class="nav-item"><a href="shop-expenses.html" class="nav-link"><i data-lucide="indian-rupee"></i> Expenses</a></div>
+        <div class="nav-item"><a href="shop-reports.html" class="nav-link"><i data-lucide="file-text"></i> Reports</a></div>
+        <div class="nav-item"><a href="shop-analytics.html" class="nav-link"><i data-lucide="pie-chart"></i> Analytics</a></div>
+      </div>
+    </aside>
+    <main class="main-content">
+      <header class="topbar"><h2 style="font-size: 1.25rem;">Customers</h2></header>
+      <div class="content-area">
+        <div class="card animate-fade-in p-6"><h3 class="mb-4">Customer Management</h3><p>Manage your customers, view purchase history, and track outstanding balances.</p></div>
+      </div>
+    </main>
+  </div>
+  <script src="js/main.js"></script><script>lucide.createIcons();</script>
+</body>
+</html>
