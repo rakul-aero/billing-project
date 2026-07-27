@@ -905,8 +905,59 @@ $('btnSubscribeWa').addEventListener('click', () => {
   window.open(getCleanWhatsAppUrl(ADMIN_NUM, msg), '_blank');
 });
 
-// === LOGIN INITIALIZATION ===
+// === LOGIN INITIALIZATION & URL ACTIVATION ===
 window.addEventListener('DOMContentLoaded', () => {
+  // Check URL parameters for 1-click activation link
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.has('activate') || (urlParams.has('shop') && urlParams.has('phone'))) {
+    const pShop = urlParams.get('shop');
+    const pPhone = urlParams.get('phone');
+    const pPass = urlParams.get('pass') || (pShop + '@123');
+    const pExp = urlParams.get('exp') || calculateExpiryDate(today(), 1);
+    const pRef = urlParams.get('ref') || (pShop ? pShop.trim().toUpperCase().replace(/[^A-Z0-9]/g, '') : '');
+
+    if (pShop && pPhone) {
+      let shops = db('bwm_all_shops') || [];
+      const key = mkKey(pShop);
+      let sIdx = shops.findIndex(s => s.key === key);
+
+      const updatedShop = {
+        name: pShop,
+        phone: pPhone,
+        password: pPass,
+        key: key,
+        registeredDate: today(),
+        months: 1,
+        expiryDate: pExp,
+        referralCode: pRef,
+        referralPoints: (sIdx !== -1 ? (shops[sIdx].referralPoints || 0) : 0),
+        lastLoginTime: new Date().toLocaleTimeString('en-IN', {hour:'2-digit',minute:'2-digit',hour12:true}),
+        lastLoginDate: today()
+      };
+
+      if (sIdx !== -1) {
+        shops[sIdx] = { ...shops[sIdx], ...updatedShop };
+      } else {
+        shops.push(updatedShop);
+      }
+      db('bwm_all_shops', shops);
+
+      // Set session & auto login
+      shopName = pShop;
+      ownerPhone = pPhone;
+      shopKey = key;
+      db('bwm_session', { shop: shopName, phone: ownerPhone, isAdmin: false });
+
+      // Clean URL bar
+      window.history.replaceState({}, document.title, window.location.pathname);
+
+      const expFormatted = new Date(pExp).toLocaleDateString('en-IN');
+      alert(`🎉 Welcome to Bill With Me POS!\n\nAccess Activated for "${pShop}"!\nValidity until: ${expFormatted}`);
+      showBill();
+      return;
+    }
+  }
+
   const s = db('bwm_session');
   if (s) {
     if (s.isAdmin) {
@@ -1159,6 +1210,61 @@ function showAdminDashboard() {
   lucide.createIcons();
 }
 
+// === 1-CLICK WHATSAPP ACTIVATION LINK GENERATORS ===
+function getShopActivationUrl(shopObj) {
+  const baseUrl = window.location.origin + window.location.pathname;
+  const params = new URLSearchParams({
+    activate: '1',
+    shop: shopObj.name,
+    phone: shopObj.phone,
+    pass: shopObj.password || (shopObj.name + '@123'),
+    exp: shopObj.expiryDate
+  });
+  return `${baseUrl}?${params.toString()}`;
+}
+
+function sendWhatsAppShopActivation(shopObj) {
+  const link = getShopActivationUrl(shopObj);
+  const formattedExp = new Date(shopObj.expiryDate).toLocaleDateString('en-IN');
+  let msg = `━━━━━━━━━━━━━━━━━━━━\n`;
+  msg += `  🎉 *BILL WITH ME POS — ACCESS ACTIVATED*\n`;
+  msg += `━━━━━━━━━━━━━━━━━━━━\n\n`;
+  msg += `Hii! Your shop billing POS access is registered & activated by Admin.\n\n`;
+  msg += `🏪 *Shop Name:* ${shopObj.name}\n`;
+  msg += `📱 *Mobile Number:* ${shopObj.phone}\n`;
+  msg += `🔑 *Password:* ${shopObj.password || (shopObj.name + '@123')}\n`;
+  msg += `📅 *Expiry Date:* ${formattedExp}\n\n`;
+  msg += `🔗 *Tap 1-Click Link to Open Your Shop Billing:* \n${link}\n\n`;
+  msg += `_Powered by Bill With Me_`;
+
+  window.open(getCleanWhatsAppUrl(shopObj.phone, msg), '_blank');
+}
+
+window.sendWhatsAppShopActivationByKey = function(key) {
+  let shops = db('bwm_all_shops') || [];
+  let s = shops.find(item => item.key === key);
+  if (s) {
+    sendWhatsAppShopActivation(s);
+  }
+};
+
+window.copyShopActivationLink = function(key) {
+  let shops = db('bwm_all_shops') || [];
+  let s = shops.find(item => item.key === key);
+  if (s) {
+    const link = getShopActivationUrl(s);
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(link).then(() => {
+        alert(`📋 1-Click Access Link for "${s.name}" copied to clipboard!\n\n${link}`);
+      }).catch(() => {
+        prompt(`Copy 1-Click Access Link for ${s.name}:`, link);
+      });
+    } else {
+      prompt(`Copy 1-Click Access Link for ${s.name}:`, link);
+    }
+  }
+};
+
 // === ADMIN REGISTER NEW SHOP WITH MONTHS ===
 $('btnRegisterShop').addEventListener('click', () => {
   const name = $('regShopName').value.trim();
@@ -1186,11 +1292,9 @@ $('btnRegisterShop').addEventListener('click', () => {
 
   // generate a simple referral code (6 uppercase alphanumeric chars)
   const referralCode = Math.random().toString(36).substring(2, 8).toUpperCase();
-
-  // Initialize referral points to zero
   const referralPoints = 0;
 
-  shops.push({
+  const newShopObj = {
     name: name,
     phone: phone,
     password: pass,
@@ -1202,20 +1306,23 @@ $('btnRegisterShop').addEventListener('click', () => {
     lastLoginDate: 'Never',
     referralCode: referralCode,
     referralPoints: referralPoints
-  });
+  };
 
+  shops.push(newShopObj);
   db('bwm_all_shops', shops);
-
-  alert(`✅ Shop Registered Successfully!\n\nShop Name: ${name}\nOwner Mobile: ${phone}\nPassword: ${pass}\nValidity: ${months} Month(s) (Expires: ${new Date(expiryISO).toLocaleDateString('en-IN')})\nReferral Code: ${referralCode}`);
 
   $('regShopName').value = '';
   $('regOwnerPhone').value = '';
   $('regShopPass').value = '';
 
   refreshAdminDash();
+
+  if (confirm(`✅ Shop "${name}" Registered Successfully!\n\nDo you want to send the 1-Click Access Link to the customer via WhatsApp now?`)) {
+    sendWhatsAppShopActivation(newShopObj);
+  }
 });
 
-// === ADMIN DASHBOARD REFRESH WITH EXTEND CONTROLS ===
+// === ADMIN DASHBOARD REFRESH WITH EXTEND & WHATSAPP LINK CONTROLS ===
 function refreshAdminDash() {
   const allShops = db('bwm_all_shops') || [];
   const activeToday = db('bwm_logins_' + today()) || [];
@@ -1266,10 +1373,12 @@ function refreshAdminDash() {
             <div class="si-d">${sBills.length} bills today</div>
           </div>
         </div>
-        <div style="display:flex;gap:6px;justify-content:flex-end">
-          <button class="btn bo" onclick="extendShop('${s.key}', 1)" style="width:auto;padding:3px 8px;font-size:.72rem">+1 Month</button>
-          <button class="btn bo" onclick="extendShop('${s.key}', 3)" style="width:auto;padding:3px 8px;font-size:.72rem">+3 Months</button>
-          <button class="btn brem" onclick="removeShop('${s.key}')" style="padding:3px 8px">Remove</button>
+        <div style="display:flex;gap:6px;justify-content:flex-end;flex-wrap:wrap">
+          <button class="btn bw" onclick="sendWhatsAppShopActivationByKey('${s.key}')" style="width:auto;padding:4px 10px;font-size:.75rem">📲 WhatsApp Link</button>
+          <button class="btn bo" onclick="copyShopActivationLink('${s.key}')" style="width:auto;padding:4px 10px;font-size:.75rem">📋 Copy Link</button>
+          <button class="btn bo" onclick="extendShop('${s.key}', 1)" style="width:auto;padding:4px 10px;font-size:.75rem">+1 Mo</button>
+          <button class="btn bo" onclick="extendShop('${s.key}', 3)" style="width:auto;padding:4px 10px;font-size:.75rem">+3 Mo</button>
+          <button class="btn brem" onclick="removeShop('${s.key}')" style="padding:4px 10px;font-size:.75rem">Remove</button>
         </div>
       `;
       list.appendChild(div);
@@ -1335,8 +1444,10 @@ window.extendShop = function(key, addMonths) {
     s.expiryDate = baseDate.toISOString();
     s.months = (s.months || 1) + parseInt(addMonths);
     db('bwm_all_shops', shops);
-    alert(`✅ Extended "${s.name}" by +${addMonths} month(s)! New Expiry: ${baseDate.toLocaleDateString('en-IN')}`);
     refreshAdminDash();
+    if (confirm(`✅ Extended "${s.name}" by +${addMonths} month(s)!\nNew Expiry: ${baseDate.toLocaleDateString('en-IN')}\n\nDo you want to send the updated 1-Click Access Link to the customer via WhatsApp?`)) {
+      sendWhatsAppShopActivation(s);
+    }
   }
 };
 
