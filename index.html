@@ -356,7 +356,10 @@
           <div class="st">Bill With Me POS</div>
         </div>
       </div>
-      <div style="display:flex;align-items:center;gap:8px">
+      <div style="display:flex;align-items:center;gap:6px">
+        <button class="btn bo" id="openShopSettingsBtn" style="width:auto;padding:6px 10px;font-size:.78rem">
+          <i data-lucide="settings" style="width:13px;height:13px"></i> Settings
+        </button>
         <button class="btn bo" id="openChangePassBtn" style="width:auto;padding:6px 10px;font-size:.78rem">
           <i data-lucide="key" style="width:13px;height:13px"></i> Password
         </button>
@@ -394,6 +397,14 @@
     <div class="sls" id="salesList"><div class="empty">No bills today yet — start billing! 🚀</div></div>
     
     <div style="display:flex;gap:8px;margin-top:12px;flex-direction:column">
+      <div style="display:flex;gap:8px">
+        <button class="btn bo" id="openUdhaarBtn" style="flex:1;font-size:.8rem;padding:10px">
+          <i data-lucide="book-open"></i> 📒 Udhaar Khata
+        </button>
+        <button class="btn bo" id="exportCsvBtn" style="flex:1;font-size:.8rem;padding:10px">
+          <i data-lucide="download"></i> 📊 Export Excel
+        </button>
+      </div>
       <button class="btn bo" id="allPastBillsBtn">
         <i data-lucide="history"></i> View All Past Bills & History
       </button>
@@ -437,12 +448,25 @@
       <button class="btn bo" id="addBtn"><i data-lucide="plus-circle"></i> Add to Bill</button>
     </div>
 
+    <!-- Discount & Coupon -->
+    <div style="display:flex;gap:8px;margin-top:10px">
+      <div class="fg" style="flex:1">
+        <label>Discount (₹)</label>
+        <div class="iw"><i data-lucide="percent" class="ic"></i><input type="number" id="billDiscount" placeholder="Discount ₹" value="0" min="0"></div>
+      </div>
+      <div class="fg" style="flex:1">
+        <label>Coupon Code</label>
+        <div class="iw"><i data-lucide="ticket" class="ic"></i><input type="text" id="billCoupon" placeholder="Code"></div>
+      </div>
+    </div>
+
     <!-- Payment Mode Selection -->
-    <div class="fg" style="margin-top:14px">
+    <div class="fg" style="margin-top:10px">
       <label>Payment Mode</label>
-      <div style="display:flex;gap:8px">
-        <button type="button" class="btn bo active" id="payCashBtn" style="flex:1;padding:8px;font-size:.85rem">💵 Cash</button>
-        <button type="button" class="btn bo" id="payUpiBtn" style="flex:1;padding:8px;font-size:.85rem">📱 UPI</button>
+      <div style="display:flex;gap:6px">
+        <button type="button" class="btn bo active" id="payCashBtn" style="flex:1;padding:8px;font-size:.8rem">💵 Cash</button>
+        <button type="button" class="btn bo" id="payUpiBtn" style="flex:1;padding:8px;font-size:.8rem">📱 UPI</button>
+        <button type="button" class="btn bo" id="payUdhaarBtn" style="flex:1;padding:8px;font-size:.8rem">📝 Udhaar</button>
       </div>
     </div>
 
@@ -544,6 +568,59 @@
   <div class="card fi3">
     <div class="sec"><i data-lucide="receipt"></i> Instant Global Bill History</div>
     <div class="sls" id="adminGlobalBills" style="max-height:300px"><div class="empty">No bills generated today.</div></div>
+  </div>
+</div>
+
+<!-- ===== SHOP BRANDING & SETTINGS MODAL ===== -->
+<div class="modal" id="shopSettingsModal">
+  <div class="modal-content" style="max-width:420px">
+    <div class="modal-header">
+      <h3 style="font-size:1.1rem;font-weight:800;color:#fff">⚙️ Shop Branding & Settings</h3>
+      <button class="btn brem" id="closeShopSettingsBtn">✕</button>
+    </div>
+    
+    <div class="fg">
+      <label>Custom Shop Logo Image</label>
+      <input type="file" id="logoFileInput" accept="image/*" style="padding:8px">
+      <div id="logoPreviewWrapper" style="margin-top:8px;text-align:center;display:none">
+        <img id="logoPreviewImg" src="" alt="Logo Preview" style="max-height:80px;border-radius:10px;border:1px solid var(--card-border)">
+        <br><button class="btn brem" id="btnRemoveLogo" style="margin-top:6px;width:auto;padding:3px 8px;font-size:.75rem">Remove Logo</button>
+      </div>
+    </div>
+
+    <div class="fg">
+      <label>Shop Owner UPI ID (For Dynamic Receipt QR Code)</label>
+      <div class="iw"><i data-lucide="qr-code" class="ic"></i><input type="text" id="settingUpiId" placeholder="e.g. 9361282863@ybl or rakul@upi"></div>
+    </div>
+
+    <div class="fg">
+      <label>Receipt Language (ரசீது மொழி)</label>
+      <div class="iw">
+        <i data-lucide="languages" class="ic"></i>
+        <select id="settingReceiptLang">
+          <option value="en" selected>English (Default)</option>
+          <option value="ta">தமிழ் (Tamil)</option>
+        </select>
+      </div>
+    </div>
+
+    <button class="btn bp" id="btnSaveShopSettings" style="margin-top:10px">
+      <i data-lucide="save"></i> Save Settings
+    </button>
+  </div>
+</div>
+
+<!-- ===== UDHAAR KHATA BOOK MODAL ===== -->
+<div class="modal" id="udhaarModal">
+  <div class="modal-content" style="max-width:460px">
+    <div class="modal-header">
+      <h3 style="font-size:1.1rem;font-weight:800;color:#fff">📒 Udhaar Khata (Credit Book)</h3>
+      <button class="btn brem" id="closeUdhaarBtn">✕</button>
+    </div>
+    <div style="background:var(--amber-light);padding:10px;border-radius:10px;margin-bottom:12px;text-align:center;color:var(--amber);font-weight:800">
+      Total Pending Udhaar Balance: ₹<span id="udhaarTotalSum">0</span>
+    </div>
+    <div id="udhaarListBody" class="sls" style="max-height:55vh"></div>
   </div>
 </div>
 
@@ -676,16 +753,21 @@
 <!-- ===== HIDDEN RECEIPT FOR CANVAS ===== -->
 <div id="receiptRender">
   <div class="rc">
+    <img id="rLogoImg" src="" alt="Logo" style="display:none;max-height:60px;margin:0 auto 8px;border-radius:8px;object-fit:contain">
     <div class="r-shop" id="rShop">SHOP</div>
     <div class="r-tag">Your Trusted Shopping Destination</div>
   </div>
   <div class="r-dash"></div>
   <div class="r-meta" id="rMeta"></div>
   <div class="r-dash"></div>
-  <table class="r-tbl"><thead><tr><th>Item</th><th>Qty</th><th>Amount</th></tr></thead><tbody id="rItems"></tbody></table>
+  <table class="r-tbl"><thead><tr id="rTableHead"><th>Item</th><th>Qty</th><th>Amount</th></tr></thead><tbody id="rItems"></tbody></table>
   <div class="r-dash"></div>
   <div class="r-total" id="rTot">₹0</div>
   <div class="r-dash"></div>
+  <div id="rUpiQrWrapper" style="display:none;text-align:center;margin:10px 0;padding:8px;border:1px dashed #6366f1;border-radius:8px;background:#f8fafc">
+    <div style="font-size:10px;font-weight:bold;color:#4f46e5;margin-bottom:4px">📱 SCAN TO PAY VIA UPI (GPay / PhonePe)</div>
+    <img id="rUpiQrImg" src="" alt="UPI QR" style="width:130px;height:130px;margin:0 auto;display:block">
+  </div>
   <div class="r-loyalty" id="rLoy"></div>
   <div class="r-foot" id="rFoot"></div>
 </div>
@@ -875,12 +957,185 @@ $('payCashBtn').addEventListener('click', () => {
   paymentMode = 'Cash';
   $('payCashBtn').classList.add('active');
   $('payUpiBtn').classList.remove('active');
+  $('payUdhaarBtn').classList.remove('active');
 });
 
 $('payUpiBtn').addEventListener('click', () => {
   paymentMode = 'UPI';
   $('payUpiBtn').classList.add('active');
   $('payCashBtn').classList.remove('active');
+  $('payUdhaarBtn').classList.remove('active');
+});
+
+$('payUdhaarBtn').addEventListener('click', () => {
+  paymentMode = 'Udhaar';
+  $('payUdhaarBtn').classList.add('active');
+  $('payCashBtn').classList.remove('active');
+  $('payUpiBtn').classList.remove('active');
+});
+
+// === SHOP SETTINGS & BRANDING LOGO HANDLERS ===
+let currentLogoBase64 = '';
+
+$('openShopSettingsBtn').addEventListener('click', () => {
+  const logo = sdb('shop_logo') || '';
+  currentLogoBase64 = logo;
+  if (logo) {
+    $('logoPreviewImg').src = logo;
+    $('logoPreviewWrapper').style.display = 'block';
+  } else {
+    $('logoPreviewWrapper').style.display = 'none';
+  }
+  $('settingUpiId').value = sdb('shop_upi_id') || '';
+  $('settingReceiptLang').value = sdb('shop_receipt_lang') || 'en';
+  $('shopSettingsModal').style.display = 'flex';
+  lucide.createIcons();
+});
+
+$('closeShopSettingsBtn').addEventListener('click', () => {
+  $('shopSettingsModal').style.display = 'none';
+});
+
+$('logoFileInput').addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  if (file.size > 2 * 1024 * 1024) { alert('Logo image size must be less than 2MB.'); return; }
+  const reader = new FileReader();
+  reader.onload = (event) => {
+    currentLogoBase64 = event.target.result;
+    $('logoPreviewImg').src = currentLogoBase64;
+    $('logoPreviewWrapper').style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+});
+
+$('btnRemoveLogo').addEventListener('click', () => {
+  currentLogoBase64 = '';
+  $('logoPreviewWrapper').style.display = 'none';
+  $('logoFileInput').value = '';
+});
+
+$('btnSaveShopSettings').addEventListener('click', () => {
+  sdb('shop_logo', currentLogoBase64);
+  sdb('shop_upi_id', $('settingUpiId').value.trim());
+  sdb('shop_receipt_lang', $('settingReceiptLang').value);
+  alert('✅ Shop Settings, Logo & Branding updated successfully!');
+  $('shopSettingsModal').style.display = 'none';
+});
+
+// === UDHAAR KHATA BOOK HANDLERS ===
+$('openUdhaarBtn').addEventListener('click', () => {
+  renderUdhaarBook();
+  $('udhaarModal').style.display = 'flex';
+  lucide.createIcons();
+});
+
+$('closeUdhaarBtn').addEventListener('click', () => {
+  $('udhaarModal').style.display = 'none';
+});
+
+function renderUdhaarBook() {
+  const allHist = sdb('all_bills_history') || [];
+  const body = $('udhaarListBody');
+  body.innerHTML = '';
+
+  const udhaarBills = allHist.filter(b => b.paymentMode === 'Udhaar' && !b.udhaarCleared);
+  
+  if (udhaarBills.length === 0) {
+    $('udhaarTotalSum').textContent = '0';
+    body.innerHTML = '<div class="empty">🎉 No pending Udhaar balance! All clear.</div>';
+    return;
+  }
+
+  const custMap = {};
+  let totalPending = 0;
+
+  udhaarBills.forEach(b => {
+    const key = b.custPhone || b.custName;
+    if (!custMap[key]) {
+      custMap[key] = { name: b.custName, phone: b.custPhone, total: 0, bills: [] };
+    }
+    custMap[key].total += b.total;
+    custMap[key].bills.push(b.billNo);
+    totalPending += b.total;
+  });
+
+  $('udhaarTotalSum').textContent = totalPending.toLocaleString('en-IN');
+
+  for (let key in custMap) {
+    const c = custMap[key];
+    const div = document.createElement('div');
+    div.className = 'si';
+    div.style.flexDirection = 'column';
+    div.style.alignItems = 'stretch';
+    div.style.gap = '6px';
+    div.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div class="si-b">👤 ${c.name}</div>
+          <div class="si-d">📞 ${c.phone || 'Walk-in'} | Bills: ${c.bills.join(', ')}</div>
+        </div>
+        <div style="text-align:right">
+          <div class="si-a" style="color:var(--amber)">₹${c.total.toLocaleString('en-IN')}</div>
+          <div class="si-d" style="color:var(--red);font-weight:700">UNPAID DEBT</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:6px;justify-content:flex-end">
+        <button class="btn bw" onclick="remindUdhaarWhatsApp('${c.phone}', '${c.name}', ${c.total})" style="width:auto;padding:3px 8px;font-size:.72rem">📲 WhatsApp Reminder</button>
+        <button class="btn bo" onclick="clearUdhaarDebt('${key}')" style="width:auto;padding:3px 8px;font-size:.72rem">✓ Mark Paid</button>
+      </div>
+    `;
+    body.appendChild(div);
+  }
+}
+
+window.remindUdhaarWhatsApp = function(phone, name, amount) {
+  if (!phone) { alert('No phone number for this customer.'); return; }
+  const upiId = sdb('shop_upi_id') || '';
+  let msg = `━━━━━━━━━━━━━━━━━━━━\n`;
+  msg += `  🏪 *${shopName.toUpperCase()} — PAYMENT REMINDER*\n`;
+  msg += `━━━━━━━━━━━━━━━━━━━━\n\n`;
+  msg += `Hii ${name}! 👋\n\n`;
+  msg += `This is a friendly reminder regarding your pending balance at *${shopName}*.\n\n`;
+  msg += `💰 *Pending Udhaar Balance:* ₹${amount.toLocaleString('en-IN')}\n`;
+  if (upiId) msg += `📱 *Pay via GPay/PhonePe UPI:* ${upiId}\n`;
+  msg += `\nThank you for shopping with us! 💙`;
+
+  window.open(getCleanWhatsAppUrl(phone, msg), '_blank');
+};
+
+window.clearUdhaarDebt = function(key) {
+  if (confirm(`Mark Udhaar debt as paid for this customer?`)) {
+    let allHist = sdb('all_bills_history') || [];
+    allHist.forEach(b => {
+      if ((b.custPhone === key || b.custName === key) && b.paymentMode === 'Udhaar') {
+        b.udhaarCleared = true;
+      }
+    });
+    sdb('all_bills_history', allHist);
+    renderUdhaarBook();
+    alert('✅ Udhaar balance cleared successfully!');
+  }
+};
+
+// === EXPORT SALES TO EXCEL / CSV ===
+$('exportCsvBtn').addEventListener('click', () => {
+  const allHist = sdb('all_bills_history') || [];
+  if (allHist.length === 0) { alert('No sales records to export.'); return; }
+
+  let csv = 'Bill No,Date,Time,Customer Name,Customer Phone,Payment Mode,Total Amount,Items Count\n';
+  allHist.forEach(b => {
+    const itemsStr = b.items ? b.items.map(it => `${it.name}(x${it.qty})`).join('; ') : '';
+    csv += `"${b.billNo}","${b.date}","${b.time}","${b.custName}","${b.custPhone||''}","${b.paymentMode||'Cash'}","${b.total}","${itemsStr}"\n`;
+  });
+
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${shopName.replace(/[^a-z0-9]/gi, '_')}_sales_report.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
 });
 
 // === PRICING MODAL HANDLERS ===
@@ -1658,23 +1913,31 @@ function finalizeBill(){
   if(phone&&phone.length>=10&&name){const c=getCusts();c[phone]=name;saveCusts(c)}
   if(phone&&phone.length>=10)custId=getCustId(phone);
   const referralCode = $('referralInput') ? $('referralInput').value.trim() : '';
+  const discountVal = parseFloat($('billDiscount') ? $('billDiscount').value : 0) || 0;
+  const couponCode = $('billCoupon') ? $('billCoupon').value.trim() : '';
+
+  let finalTotal = Math.max(0, billTotal - discountVal);
+
   const bill={
     billNo,custId:custId||'WALK-IN',custName:name||'Walk-in Customer',
-    custPhone:phone||'',items:[...cart],total:billTotal,
+    custPhone:phone||'',items:[...cart],
+    subtotal: billTotal,
+    discount: discountVal,
+    coupon: couponCode,
+    total: finalTotal,
     paymentMode: paymentMode,
+    udhaarCleared: false,
     referralCodeUsed: referralCode||null,
     time:new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',hour12:true}),
     date:new Date().toLocaleDateString('en-IN'),timestamp:new Date().toISOString()
   };
   const bills=getBills(); bills.push(bill); saveBills(bills);
-  // credit referral point if code present
   if(referralCode){
     let shops = db('bwm_all_shops')||[];
     const refShop = shops.find(s=> s.referralCode===referralCode);
     if(refShop){
       refShop.referralPoints = (refShop.referralPoints||0)+1;
       db('bwm_all_shops', shops);
-      alert(`✅ Referral point added to ${refShop.name}`);
     }
   }
   if(phone){const hk=sk('hist_'+phone);const h=db(hk)||[];h.push(bill);db(hk,h)}
@@ -1682,31 +1945,83 @@ function finalizeBill(){
   return bill;
 }
 
-
 // === GENERATE BILL IMAGE ===
 async function generateBillImage(bill){
-  $('rShop').textContent=shopName.toUpperCase();
-  let meta=`📋 Bill No: ${bill.billNo}\n`;
-  meta+=`🆔 Customer ID: ${bill.custId}\n`;
-  meta+=`👤 Customer: ${bill.custName}\n`;
-  meta+=`📅 Date: ${bill.date}  🕐 Time: ${bill.time}\n`;
-  meta+=`💳 Payment: ${bill.paymentMode || 'Cash'}`;
-  $('rMeta').innerText=meta;
-  const tb=$('rItems');tb.innerHTML='';
-  bill.items.forEach(it=>{const tr=document.createElement('tr');tr.innerHTML=`<td>${it.name}</td><td>×${it.qty}</td><td>₹${it.price*it.qty}</td>`;tb.appendChild(tr)});
-  $('rTot').textContent='₹'+bill.total.toLocaleString('en-IN');
-  const ph=bill.custPhone;
-  const hist=db(sk('hist_'+(ph||'x')))||[];
-  const spent=hist.reduce((s,b)=>s+b.total,0);
-  $('rLoy').innerHTML=`⭐ Loyalty Points: <b>${spent}</b> | Visits: <b>${hist.length}</b><br>🎁 Visit again for exclusive rewards!`;
-  $('rFoot').innerHTML=`Thank you, ${bill.custName}!<br>See you again at ${shopName}! 💙<br>─────<br>Powered by Bill With Me`;
+  const logo = sdb('shop_logo');
+  const upiId = sdb('shop_upi_id');
+  const lang = sdb('shop_receipt_lang') || 'en';
 
-  const el=$('receiptRender');
-  el.style.left='0';el.style.position='fixed';el.style.zIndex='-1';
-  const canvas=await html2canvas(el,{scale:2,backgroundColor:'#ffffff',useCORS:true});
-  el.style.left='-9999px';el.style.position='absolute';
+  if (logo) {
+    $('rLogoImg').src = logo;
+    $('rLogoImg').style.display = 'block';
+  } else {
+    $('rLogoImg').style.display = 'none';
+  }
 
-  return new Promise(resolve=>{canvas.toBlob(blob=>{resolve({blob,url:canvas.toDataURL('image/png')});},'image/png');});
+  $('rShop').textContent = shopName.toUpperCase();
+
+  let meta = '';
+  if (lang === 'ta') {
+    meta += `📋 பில் எண்: ${bill.billNo}\n`;
+    meta += `🆔 வாடிக்கையாளர் ID: ${bill.custId}\n`;
+    meta += `👤 வாடிக்கையாளர்: ${bill.custName}\n`;
+    meta += `📅 தேதி: ${bill.date}  🕐 நேரம்: ${bill.time}\n`;
+    meta += `💳 கட்டண முறை: ${bill.paymentMode || 'Cash'}`;
+    $('rTableHead').innerHTML = '<th>பொருள்</th><th>அளவு</th><th>தொகை</th>';
+  } else {
+    meta += `📋 Bill No: ${bill.billNo}\n`;
+    meta += `🆔 Customer ID: ${bill.custId}\n`;
+    meta += `👤 Customer: ${bill.custName}\n`;
+    meta += `📅 Date: ${bill.date}  🕐 Time: ${bill.time}\n`;
+    meta += `💳 Payment: ${bill.paymentMode || 'Cash'}`;
+    $('rTableHead').innerHTML = '<th>Item</th><th>Qty</th><th>Amount</th>';
+  }
+  $('rMeta').innerText = meta;
+
+  const tb = $('rItems'); tb.innerHTML = '';
+  bill.items.forEach(it => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${it.name}</td><td>×${it.qty}</td><td>₹${it.price*it.qty}</td>`;
+    tb.appendChild(tr);
+  });
+
+  let totalText = '₹' + bill.total.toLocaleString('en-IN');
+  if (bill.discount > 0) {
+    totalText = `<span style="font-size:12px;color:#94a3b8;text-decoration:line-through">₹${bill.subtotal.toLocaleString('en-IN')}</span> ` + totalText;
+  }
+  $('rTot').innerHTML = totalText;
+
+  // Dynamic UPI QR Code generator
+  if (bill.paymentMode === 'UPI' && upiId) {
+    const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=${encodeURIComponent('upi://pay?pa=' + upiId + '&pn=' + shopName + '&am=' + bill.total + '&cu=INR')}`;
+    $('rUpiQrImg').src = qrUrl;
+    $('rUpiQrWrapper').style.display = 'block';
+  } else {
+    $('rUpiQrWrapper').style.display = 'none';
+  }
+
+  const ph = bill.custPhone;
+  const hist = db(sk('hist_'+(ph||'x')))||[];
+  const spent = hist.reduce((s,b)=>s+b.total,0);
+
+  if (lang === 'ta') {
+    $('rLoy').innerHTML = `⭐ வாடிக்கையாளர் புள்ளிகள்: <b>${spent}</b> | வருகைகள்: <b>${hist.length}</b><br>🎁 மீண்டும் வருகைக்கு சிறப்பு பரிசுகள்!`;
+    $('rFoot').innerHTML = `நன்றி, ${bill.custName}!<br>மீண்டும் ${shopName} கடைக்கு வருக! 💙<br>─────<br>Powered by Bill With Me`;
+  } else {
+    $('rLoy').innerHTML = `⭐ Loyalty Points: <b>${spent}</b> | Visits: <b>${hist.length}</b><br>🎁 Visit again for exclusive rewards!`;
+    $('rFoot').innerHTML = `Thank you, ${bill.custName}!<br>See you again at ${shopName}! 💙<br>─────<br>Powered by Bill With Me`;
+  }
+
+  const el = $('receiptRender');
+  el.style.left = '0'; el.style.position = 'fixed'; el.style.zIndex = '-1';
+  const canvas = await html2canvas(el, {scale:2, backgroundColor:'#ffffff', useCORS:true});
+  el.style.left = '-9999px'; el.style.position = 'absolute';
+
+  return new Promise(resolve => {
+    canvas.toBlob(blob => {
+      resolve({blob, url: canvas.toDataURL('image/png')});
+    }, 'image/png');
+  });
 }
 
 // === BILL DONE BUTTON ===
